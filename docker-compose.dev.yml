@@ -1,0 +1,28 @@
+version: "3.4"
+
+services:
+  db:
+    image: postgres:14.1
+    container_name: mentors_postgres
+    restart: always
+    volumes:
+      - ./db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "5434:5432"
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mentors_bot
+    restart: always
+    volumes:
+      - ./app/:/app
+    env_file:
+      - .env
+    depends_on:
+      - db

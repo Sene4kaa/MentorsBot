@@ -1,0 +1,13 @@
+vault:
+  enabled: true
+  defaultPath: student-projects/td-mentors-bot
+  variables:
+    - name: TG_TOKEN
+
+healthcheck:
+  enabled: false
+
+replicas: 1
+
+network:
+  enabled: false

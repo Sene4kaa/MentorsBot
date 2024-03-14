@@ -1,0 +1,5 @@
+aiogram==3.4.1
+python-dotenv==1.0.0
+psycopg==3.1.18
+starlette==0.37.1
+gspread==6.0.2
