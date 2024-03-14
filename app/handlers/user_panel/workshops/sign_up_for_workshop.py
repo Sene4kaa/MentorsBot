@@ -8,7 +8,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters import StateFilter
 
-from config import DATABASE_URL
+from config import DATABASE_URL, SAMPLE_SPREADSHEET_ID
 from services.messages import get_workshops_lower_35_list, get_workshops_format_list, get_deleting_workshops_list
 from services.keyboards import (
     get_back_to_user_menu_kb,
@@ -33,7 +33,7 @@ def next_available_row(worksheet):
 router = Router()
 
 gc = gspread.service_account(filename="test.json")
-sh = gc.open_by_key("1ScBWx-r-870JST0V3kcJ_XMxtuI2eYKRHZv-8d33FPo")
+sh = gc.open_by_key(SAMPLE_SPREADSHEET_ID)
 worksheet_sign_up = sh.worksheet("SignUpWorkshops")
 
 

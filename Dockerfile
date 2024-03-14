@@ -29,4 +29,4 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 COPY ./app/ .
 
-CMD ["python", "bot.py"]
+CMD alembic upgrade head && python bot.py

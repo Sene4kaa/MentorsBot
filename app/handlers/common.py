@@ -13,6 +13,8 @@ from config import DATABASE_URL, ADMINS
 
 router = Router()
 
+AdminList = ADMINS
+
 
 # Получение айди пользователя
 @router.message(Command("start1"))
@@ -42,7 +44,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
                     except TelegramBadRequest:
                         pass
 
-            if str(message.from_user.id) not in [582456997, 478009590, 1207382758]:
+            if str(message.from_user.id) not in AdminList:
                 sql = """SELECT user_id FROM users"""
                 list = cursor.execute(sql).fetchall()
                 user_id_list = []

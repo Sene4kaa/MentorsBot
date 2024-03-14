@@ -9,7 +9,7 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.filters import StateFilter
 
-from config import DATABASE_URL
+from config import SAMPLE_SPREADSHEET_ID, DATABASE_URL
 from services.keyboards import get_user_list_kb, get_back_to_user_menu_kb, get_3_points_kb
 from services.messages import get_lessons_with_user_id
 
@@ -27,7 +27,7 @@ def next_available_row(worksheet):
 
 
 gc = gspread.service_account(filename="test.json")
-sh = gc.open_by_key("1ScBWx-r-870JST0V3kcJ_XMxtuI2eYKRHZv-8d33FPo")
+sh = gc.open_by_key(SAMPLE_SPREADSHEET_ID)
 worksheet_lesson = sh.worksheet("Lessons")
 worksheet_id = sh.worksheet("ID")
 

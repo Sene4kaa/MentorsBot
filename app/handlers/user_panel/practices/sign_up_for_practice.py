@@ -7,7 +7,7 @@ from aiogram.filters import StateFilter
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
-from config import DATABASE_URL
+from config import SAMPLE_SPREADSHEET_ID, DATABASE_URL
 from services.keyboards import (
     get_user_added_practice_kb,
     get_back_to_user_menu_kb,
@@ -33,7 +33,7 @@ router = Router()
 
 
 gc = gspread.service_account(filename="test.json")
-sh = gc.open_by_key("1ScBWx-r-870JST0V3kcJ_XMxtuI2eYKRHZv-8d33FPo")
+sh = gc.open_by_key(SAMPLE_SPREADSHEET_ID)
 worksheet_sign_up = sh.worksheet("SignUpPractices")
 
 available_practice_formats = ["Zoom", "Очно, Кронверкский", "Очно, Ломоносова"]
