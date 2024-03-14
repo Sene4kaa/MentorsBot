@@ -10,7 +10,10 @@ router = Router()
 async def send_message(callback: CallbackQuery):
 
     await callback.message.edit_text(
-        text="Контакты:\n\n@чат - ссылка на чатик\n123@itmo.ru - почта",
+        text=(
+            "<b>Контакты</b>:\n\n@чат - ссылка на чатик\n123@itmo.ru - почта"
+            + "\n\nПо вопросам работы бота:\nadosychenko@itmo.ru"
+        ),
         reply_markup=get_back_to_user_menu_kb()
     )
 
