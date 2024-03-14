@@ -2,7 +2,9 @@ vault:
   enabled: true
   defaultPath: student-projects/td-mentors-bot
   variables:
-    - name: TG_TOKEN
+    - name: BOT_TOKEN
+    - name: DATABASE_URL
+    - name: GSPREAD
 
 healthcheck:
   enabled: false
