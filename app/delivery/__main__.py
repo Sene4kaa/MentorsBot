@@ -85,7 +85,7 @@ async def main():
 
 
 if __name__ == "__main__":
-    current_path = Path(__file__).resolve().parent
+    current_path = Path(__file__).resolve().parent.parent
     with open(current_path / "test.json", "w") as credentials_file:
         credentials_file.write(settings.GSPREAD)
 
