@@ -5,9 +5,11 @@ vault:
     - name: BOT_TOKEN
     - name: DATABASE_URL
     - name: GSPREAD
+    - name: SECRET_KEY
 configVariables:
   ADMINS: "478009590,1207382758"
   SAMPLE_SPREADSHEET_ID: "1ScBWx-r-870JST0V3kcJ_XMxtuI2eYKRHZv-8d33FPo"
+  DEBUG: false
 
 healthcheck:
   enabled: false

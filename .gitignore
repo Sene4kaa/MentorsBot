@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -155,8 +154,3 @@ logs/*
 db/*
 test.json
 credentials_parser.py
-=======
-.vscode/
-.idea/
-.DS_Store
->>>>>>> 791e53838f205d8e2f48f971cb6c79746860579f
