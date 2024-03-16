@@ -14,5 +14,6 @@ async def send_message(callback: CallbackQuery):
     chat_link = hlink("Чат", "https://t.me/+YxoRDu70TpVmYzVi")
     await callback.message.edit_text(
         text=f"Контакты:\n\n{chat_link} - ссылка на чат\neabezyzvestnykh@itmo.ru - почта\n\nПо вопросам работы бота:\nadosychenko@itmo.ru", 
-        reply_markup=get_back_to_user_menu_kb()
+        reply_markup=get_back_to_user_menu_kb(),
+        disable_web_page_preview=True
     )
