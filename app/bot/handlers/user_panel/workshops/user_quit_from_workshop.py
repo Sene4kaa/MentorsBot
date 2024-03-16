@@ -43,7 +43,7 @@ async def start_quiting_workshop(callback: CallbackQuery, state: FSMContext):
 
     else:
         await callback.message.edit_text(
-            text=f"Вы не записаны ни на одну мастерскую", reply_markup=get_back_to_user_menu_kb()
+            text=f"Ты не записан(а) <i>ни на одну</i> мастерскую 😥", reply_markup=get_back_to_user_menu_kb()
         )
 
 

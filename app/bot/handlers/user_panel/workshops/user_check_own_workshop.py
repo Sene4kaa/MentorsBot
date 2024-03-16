@@ -31,7 +31,7 @@ async def checking_for_workshops(callback: CallbackQuery, state: FSMContext):
 
     if len(lessons) == 0:
         await callback.message.edit_text(
-            text="😥 Вы не записаны ни на одну мастерскую", reply_markup=get_back_to_user_menu_kb()
+            text="Ты не записан(а) <i>ни на одну</i> мастерскую 😥", reply_markup=get_back_to_user_menu_kb()
         )
     else:
 

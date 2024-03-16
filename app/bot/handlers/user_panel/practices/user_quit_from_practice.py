@@ -40,7 +40,7 @@ async def start_quiting_from_practice(callback: CallbackQuery, state: FSMContext
     practices = get_lessons_with_user_id(callback.from_user.id)
     if len(practices) == 0:
         await callback.message.edit_text(
-            text="Ты не записан <i>ни на одно</i> занятие 😥", reply_markup=get_user_cancel_quit_kb(practices)
+            text="Ты не записан(а) <i>ни на одно</i> занятие 😥", reply_markup=get_user_cancel_quit_kb(practices)
         )
     else:
         await callback.message.edit_text(
