@@ -11,8 +11,9 @@ def get_admin_practice_menu_kb():
             types.InlineKeyboardButton(text="Удалить предмет", callback_data="DeleteLesson")],
             [types.InlineKeyboardButton(text="Добавить занятие", callback_data="AddPractice"),
             types.InlineKeyboardButton(text="Убрать занятие", callback_data="DeletePractice")],
-            [types.InlineKeyboardButton(text="Посмотреть причины отказов", callback_data="CheckQuitReasons")
-        ]]
+            [types.InlineKeyboardButton(text="Посмотреть причины отказов", callback_data="CheckQuitReasons")],
+            [types.InlineKeyboardButton(text="Вернуться в главное меню", callback_data="CancelAdminOperation")]
+        ]
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
@@ -24,7 +25,8 @@ def get_admin_workshop_menu_kb():
             types.InlineKeyboardButton(text="Удалить мастерскую", callback_data="DeleteWorkshop")],
             [types.InlineKeyboardButton(text="Добавить занятие в мастерской", callback_data="AddWorkshopPractice"),
             types.InlineKeyboardButton(text="Удалить занятие из мастерской", callback_data="DeleteWorkshopPractice")],
-            [types.InlineKeyboardButton(text="Посмотреть отказы", callback_data="CheckQuitWorkshopReasons")]
+            [types.InlineKeyboardButton(text="Посмотреть отказы", callback_data="CheckQuitWorkshopReasons")],
+            [types.InlineKeyboardButton(text="Вернуться в главное меню", callback_data="CancelAdminOperation")]
         ]
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 

@@ -24,5 +24,7 @@ async def start_checking_reasons(callback: CallbackQuery):
     for x in tuple_reasons:
         reasons.append(x[0] + ": " + x[1])
     reasons = "\n".join(reasons)
-
-    await callback.message.edit_text(text=f"{reasons}", reply_markup=get_back_to_admin_menu_kb())
+    if reasons:
+        await callback.message.edit_text(text=f"{reasons}", reply_markup=get_back_to_admin_menu_kb())
+    else:
+        await callback.message.edit_text(text="Отказов пока не было", reply_markup=get_back_to_admin_menu_kb())
