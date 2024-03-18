@@ -51,9 +51,10 @@ available_practice_hour = ["08", "09", "10", "11", "12", "13", "14", "15", "16",
 available_practice_minute = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
 
 
-@router.callback_query(StateFilter(None), F.data == "AddPractice")
+@router.callback_query(F.data == "AddPractice")
 async def add_practice(callback: types.CallbackQuery, state: FSMContext):
 
+    await state.clear()
     titles_list = get_all_lessons_list()
 
     await callback.message.edit_text(

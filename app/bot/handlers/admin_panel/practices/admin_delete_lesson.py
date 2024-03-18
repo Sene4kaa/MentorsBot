@@ -21,9 +21,10 @@ class DeletingLesson(StatesGroup):
 router = Router()
 
 
-@router.callback_query(StateFilter(None), F.data == "DeleteLesson")
+@router.callback_query(F.data == "DeleteLesson")
 async def start_deleting_lesson(callback: CallbackQuery, state: FSMContext):
 
+    await state.clear()
     titles_list = get_lessons_names()
 
     await callback.message.edit_text(
