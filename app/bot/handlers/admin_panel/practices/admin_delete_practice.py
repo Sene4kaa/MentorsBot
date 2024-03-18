@@ -32,7 +32,7 @@ async def deleting_practice_name_chosen(callback: CallbackQuery, state: FSMConte
     await state.set_state(DeletePractice.choosing_practice_name)
 
 
-@router.callback_query(DeletePractice.choosing_practice_name, F.data.in_(get_lessons_name_list()))
+@router.callback_query(DeletePractice.choosing_practice_name)
 async def deleting_practice_format_chosen(callback: CallbackQuery, state: FSMContext):
 
     await state.update_data(chosen_name=callback.data)
@@ -80,12 +80,13 @@ async def end_deleting_practice(callback: CallbackQuery, state: FSMContext):
 
     user_data = await state.get_data()
 
-    sql = """DELETE FROM schedule WHERE lesson=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
+    sql_admin = """DELETE FROM schedule WHERE lesson=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
+    sql_user = """DELETE FROM practices WHERE lessons=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(
-                sql,
+                sql_admin,
                 (
                     user_data["chosen_name"],
                     user_data["chosen_format"],
@@ -94,9 +95,17 @@ async def end_deleting_practice(callback: CallbackQuery, state: FSMContext):
                     user_data["chosen_time"].split(", ")[2][3:],
                 ),
             )
+            cursor.execute(
+                sql_user,
+                (
+                    user_data["chosen_name"],
+                    user_data["chosen_format"],
+                    user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1],
+                    user_data["chosen_time"].split(", ")[2][:2],
+                    user_data["chosen_time"].split(", ")[2][3:],
+                )
+            )
 
-            cursor.execute("""SELECT * FROM schedule""")
-            print(cursor.fetchall())
             conn.commit()
 
     await callback.message.edit_text(text="Занятие успешно удалено!", reply_markup=get_back_to_admin_menu_kb())

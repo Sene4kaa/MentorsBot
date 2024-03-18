@@ -81,56 +81,35 @@ async def start_signing_up(callback: CallbackQuery, state: FSMContext):
 
 @router.callback_query(F.data == "CancelToChoosingDatetimeOperation")
 async def time_chosen(callback: CallbackQuery, state: FSMContext):
-
     user_data = await state.get_data()
 
     await callback.message.edit_text(
         text=(
-            f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n\n"
-            + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n"
-            + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
-            + "\n\nВыбери удобные <i>дату и время</i> занятия"
+                f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>"
+                + "\n\nВыбери удобные <i>дату и время</i> занятия"
         ),
         reply_markup=get_user_list_cancel_sign_up_practice_kb(
             set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
         ),
     )
-
     await state.set_state(SignUp.choosing_time)
 
 
 @router.callback_query(SignUp.choosing_practice)
 async def practice_chosen(callback: CallbackQuery, state: FSMContext):
 
-    practice_format = get_lessons_format_list(callback.data)[0]
-
     await state.update_data(chosen_practice=callback.data)
-    await state.update_data(chosen_format=practice_format)
     user_data = await state.get_data()
 
-    if user_data['chosen_format'] == "Zoom":
-        await callback.message.edit_text(
-            text=(
-                f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n"
-                + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n"
-                + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
-                + "\n\nВыбери удобные <i>дату и время</i> занятия"
-            ),
-            reply_markup=get_user_list_cancel_sign_up_practice_kb(
-                set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
-            ),
-        )
-    else:
-        await callback.message.edit_text(
-            text=(
-                    f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n"
-                    + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\n"
-                    + "Выбери удобные <i>дату и время</i> занятия"
-            ),
-            reply_markup=get_user_list_cancel_sign_up_practice_kb(
-                set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
-            ),
-        )
+    await callback.message.edit_text(
+        text=(
+            f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>"
+            + "\n\nВыбери удобные <i>дату и время</i> занятия"
+        ),
+        reply_markup=get_user_list_cancel_sign_up_practice_kb(
+            set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
+        ),
+    )
     await state.set_state(SignUp.choosing_time)
 
 
@@ -140,17 +119,43 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     await state.update_data(chosen_time=callback.data)
     user_data = await state.get_data()
 
-    await callback.message.edit_text(
-        text=f"Ты хочешь записаться на занятие\n\n🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n🎯 Формат: <b>{user_data['chosen_format']}</b>"
-        + f"\n📆 Дата и время: <b>{user_data['chosen_time']}</b>.\n\n<u>Подтверди запись</u>.",
-        reply_markup=get_user_added_practice_kb(),
-    )
+    with psycopg.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            practice_format = cursor.execute("""SELECT format FROM schedule WHERE lesson=%s AND date=%s""",
+                                             [user_data["chosen_practice"],
+                                              user_data["chosen_time"].split(', ')[0] + ', ' + user_data["chosen_time"].split(', ')[1]]).fetchall()[0][0]
+            conn.commit()
+    await state.update_data(chosen_format=practice_format)
 
+    if practice_format == "Zoom":
+        await callback.message.edit_text(
+            text=(
+                f"Ты хочешь записаться на занятие\n\n🧠"
+                + f"Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
+                + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>\n"
+                + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
+                + f"\n📆 Дата и время: <b>{user_data['chosen_time']}</b>."
+                + "\n\n<u>Подтверди запись</u>."
+            ),
+            reply_markup=get_user_added_practice_kb(),
+        )
+    else:
+        await callback.message.edit_text(
+            text=(
+                    f"Ты хочешь записаться на занятие\n\n🧠"
+                    + f"Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
+                    + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>\n"
+                    + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>."
+                    + "\n\n<u>Подтверди запись</u>."
+            ),
+            reply_markup=get_user_added_practice_kb(),
+        )
     await state.set_state(SignUp.signing_up)
 
 
 @router.callback_query(SignUp.signing_up)
 async def ending_adding_practice(callback: CallbackQuery, state: FSMContext):
+
 
     user_data = await state.get_data()
     sql_practices = """INSERT INTO practices (user_id, lessons, format, date, hours, minutes)

@@ -115,7 +115,7 @@ def get_admin_list_kb(items: list[str]) -> InlineKeyboardMarkup:
     builder.row(types.InlineKeyboardButton(
         text="Отмена", callback_data="CancelAdminOperation")
     )
-    
+    builder.adjust(1)
     return builder.as_markup()
 
 def get_user_list_kb(items: list[str]) -> InlineKeyboardMarkup:
