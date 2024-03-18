@@ -14,7 +14,12 @@ from bot.services.keyboards import (
     get_user_list_cancel_sign_up,
     get_user_list_cancel_sign_up_practice_kb,
 )
-from bot.services.messages import get_lessons_lower_35_list, get_lessons_format_list, get_deleting_lessons_list
+from bot.services.messages import (
+    get_lessons_lower_35_list,
+    get_lessons_format_list,
+    get_deleting_lessons_list,
+    get_lessons_dates_lower_35_list
+)
 
 DATABASE_URL = settings.DATABASE_URL
 
@@ -86,9 +91,10 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
 
     await callback.message.edit_text(
         text=f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n\n"
-        + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\nВыбери удобные <i>дату и время</i> занятия",
+        + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>"
+        + "\n\nВыбери удобные <i>дату и время</i> занятия",
         reply_markup=get_user_list_cancel_sign_up_practice_kb(
-            set(get_deleting_lessons_list(user_data["chosen_practice"], user_data["chosen_format"]))
+            set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
         ),
     )
 
@@ -105,10 +111,13 @@ async def practice_chosen(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
 
     await callback.message.edit_text(
-        text=f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n"
-        + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\nВыбери удобные <i>дату и время</i> занятия",
+        text=(
+            f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n"
+            + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\n"
+            + "Выбери удобные <i>дату и время</i> занятия"
+        ),
         reply_markup=get_user_list_cancel_sign_up_practice_kb(
-            set(get_deleting_lessons_list(user_data["chosen_practice"], user_data["chosen_format"]))
+            set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
         ),
     )
 
@@ -174,7 +183,10 @@ async def ending_adding_practice(callback: CallbackQuery, state: FSMContext):
     worksheet_sign_up.update_acell(f"C{next_row_id}", user_name[0][1])
 
     await callback.message.edit_text(
-        text="Запись на занятие <b>подтверждена</b>!\nСсылку для подключения или номер аудитории можно найти в разделе <i>Мои занятия</i>",
+        text=(
+            "Запись на занятие <b>подтверждена</b>!\n"
+            + "Ссылку для подключения или номер аудитории можно найти в разделе <i>Мои занятия</i>"
+        ),
         reply_markup=get_back_to_user_menu_kb(),
     )
     await state.clear()

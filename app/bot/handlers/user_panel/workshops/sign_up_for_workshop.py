@@ -9,7 +9,12 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters import StateFilter
 from django.conf import settings
 
-from bot.services.messages import get_workshops_lower_35_list, get_workshops_format_list, get_deleting_workshops_list
+from bot.services.messages import (
+    get_workshops_lower_35_list,
+    get_workshops_format_list,
+    get_deleting_workshops_list,
+    get_workshops_dates_lower_35_list
+)
 from bot.services.keyboards import (
     get_back_to_user_menu_kb,
     get_user_list_cancel_workshop_sign_up,
@@ -93,7 +98,7 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         text=f"Ты выбрал(а) мастерскую: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
         + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\nВыбери удобные <i>дату и время</i> занятия",
         reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
-            get_deleting_workshops_list(user_data["chosen_workshop_practice"], user_data["chosen_format"])
+            set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
         ),
     )
 
@@ -112,7 +117,7 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         text=f"Ты выбрал(а) мастерскую: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
         + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\nВыбери удобные <i>дату и время</i> занятия",
         reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
-            set(get_deleting_workshops_list(user_data["chosen_workshop_practice"], user_data["chosen_format"]))
+            set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
         ),
     )
 

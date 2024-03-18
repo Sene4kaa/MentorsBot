@@ -54,11 +54,13 @@ async def ending_deleting_workshop(callback: CallbackQuery, state: FSMContext):
 
     sql_admin = """DELETE FROM workshops_title WHERE title=%s"""
     sql_user = """DELETE FROM workshops WHERE title=%s"""
+    sql_admin_workshop = """DELETE FROM workshops_schedule WHERE title=%s"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql_admin, [user_data["chosen_workshop"]])
             cursor.execute(sql_user, [user_data["chosen_workshop"]])
+            cursor.execute(sql_admin_workshop, [user_data['chosen_workshop']])
             conn.commit()
 
     await callback.message.edit_text(

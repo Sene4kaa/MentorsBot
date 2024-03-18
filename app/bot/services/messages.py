@@ -67,12 +67,25 @@ def get_lessons_lower_35_list(user_id):
 
             return titles_list
 
+def get_lessons_dates_lower_35_list(lesson):
+    with psycopg.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            titles_list = []
+
+            cursor.execute("SELECT DISTINCT date, hours, minutes FROM schedule WHERE users_number < 35 AND lesson = %s",
+                           [lesson])
+
+            titles = cursor.fetchall()
+            for x in titles:
+                titles_list.append(f"{x[0]}, {x[1]}:{x[2]}")
+            return titles_list
+
 
 def get_workshops_lower_35_list(user_id):
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             user_list = cursor.execute("SELECT title FROM workshops WHERE user_id=%s ", [user_id]).fetchall()
-            cursor.execute("SELECT DISTINCT title FROM workshops_schedule WHERE users_number < 35")
+            cursor.execute("SELECT DISTINCT title FROM workshops_schedule WHERE users_number < 15")
 
             titles_list = []
             titles = cursor.fetchall()
@@ -80,6 +93,20 @@ def get_workshops_lower_35_list(user_id):
                 if x not in user_list:
                     titles_list.append(str(x[0]))
 
+            return titles_list
+
+def get_workshops_dates_lower_35_list(workshop):
+    with psycopg.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            titles_list = []
+
+            cursor.execute("""SELECT DISTINCT date, hours, minutes FROM workshops_schedule WHERE
+                           users_number < 15 AND title = %s""",
+                           [workshop])
+
+            titles = cursor.fetchall()
+            for x in titles:
+                titles_list.append(f"{x[0]}, {x[1]}:{x[2]}")
             return titles_list
 
 

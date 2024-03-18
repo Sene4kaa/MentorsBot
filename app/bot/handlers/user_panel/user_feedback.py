@@ -51,7 +51,7 @@ async def feedback_line_started(callback: CallbackQuery, state: FSMContext):
 
         await state.clear()
         await callback.message.edit_text(
-            text="Вы не записаны ни на одно занятие", reply_markup=get_back_to_user_menu_kb()
+            text="Ты не записан(а) <i>ни на одно</i> занятие 😥", reply_markup=get_back_to_user_menu_kb()
         )
     else:
         await callback.message.edit_text(
