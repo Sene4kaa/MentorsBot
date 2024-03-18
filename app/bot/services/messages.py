@@ -8,7 +8,7 @@ DATABASE_URL = settings.DATABASE_URL
 def get_lessons_names():
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM lessons_title")
+            cursor.execute("SELECT DISTINCT title FROM lessons_title")
             titles_list = []
             titles = cursor.fetchall()
             for x in titles:

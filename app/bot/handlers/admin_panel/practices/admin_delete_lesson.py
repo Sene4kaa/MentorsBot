@@ -21,14 +21,13 @@ class DeletingLesson(StatesGroup):
 router = Router()
 
 
-@router.callback_query(F.data == "DeleteLesson")
+@router.callback_query(StateFilter(None), F.data == "DeleteLesson")
 async def start_deleting_lesson(callback: CallbackQuery, state: FSMContext):
 
-    await state.clear()
     titles_list = get_lessons_names()
 
     await callback.message.edit_text(
-        text="Выберите предмет для удаления", reply_markup=get_admin_list_kb(set(titles_list))
+        text="Выберите предмет для удаления", reply_markup=get_admin_list_kb(titles_list)
     )
 
     await state.set_state(DeletingLesson.choosing_lesson)
@@ -41,7 +40,8 @@ async def lesson_chosen(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
 
     await callback.message.edit_text(
-        text=f"Вы хотите удалить {user_data['chosen_lesson']}?", reply_markup=delete_admin_practice_kb()
+        text=f"Вы хотите <u>окончательно</u> удалить\n<b>{user_data['chosen_lesson']}</b>?",
+        reply_markup=delete_admin_practice_kb()
     )
 
     await state.set_state(DeletingLesson.deleting_lesson)
