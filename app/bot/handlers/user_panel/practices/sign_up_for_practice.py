@@ -85,9 +85,12 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
 
     await callback.message.edit_text(
-        text=f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n\n"
-        + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>"
-        + "\n\nВыбери удобные <i>дату и время</i> занятия",
+        text=(
+            f"Ты выбрал(а) занятие: <b>{user_data['chosen_practice']}</b>\n\n"
+            + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n"
+            + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
+            + "\n\nВыбери удобные <i>дату и время</i> занятия"
+        ),
         reply_markup=get_user_list_cancel_sign_up_practice_kb(
             set(get_lessons_dates_lower_35_list(user_data["chosen_practice"]))
         ),
