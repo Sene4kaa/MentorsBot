@@ -21,6 +21,24 @@ class DeletingLesson(StatesGroup):
 router = Router()
 
 
+@router.callback_query(F.data == "ClearPractices")
+async def clear_practices(callback: CallbackQuery):
+
+    sql_admin_schedule = """DELETE FROM schedule"""
+    sql_admin_title = """DELETE FROM lessons_title"""
+
+    with psycopg.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(sql_admin_schedule)
+            cursor.execute(sql_admin_title)
+            conn.commit()
+
+    await callback.message.edit_text(
+        text="Занятия очищены!",
+        reply_markup=get_back_to_admin_menu_kb()
+    )
+
+
 @router.callback_query(StateFilter(None), F.data == "DeleteLesson")
 async def start_deleting_lesson(callback: CallbackQuery, state: FSMContext):
 

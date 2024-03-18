@@ -12,7 +12,8 @@ def get_admin_practice_menu_kb():
             [types.InlineKeyboardButton(text="Добавить занятие", callback_data="AddPractice"),
             types.InlineKeyboardButton(text="Убрать занятие", callback_data="DeletePractice")],
             [types.InlineKeyboardButton(text="Посмотреть причины отказов", callback_data="CheckQuitReasons")],
-            [types.InlineKeyboardButton(text="Вернуться в главное меню", callback_data="CancelAdminOperation")]
+            [types.InlineKeyboardButton(text="Вернуться в главное меню", callback_data="CancelAdminOperation")],
+            [types.InlineKeyboardButton(text="Очистить занятия", callback_data="ClearPractices")]
         ]
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
