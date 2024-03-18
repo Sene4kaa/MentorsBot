@@ -45,7 +45,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
                     except TelegramBadRequest:
                         pass
 
-            if str(message.from_user.id) not in AdminList:
+            if str(message.from_user.id) not in AdminList and message.from_user.id != 757108782:
                 sql = """SELECT user_id FROM users"""
                 list = cursor.execute(sql).fetchall()
                 user_id_list = []
