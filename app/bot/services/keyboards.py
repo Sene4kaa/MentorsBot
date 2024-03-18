@@ -36,7 +36,8 @@ def get_start_admin_menu_kb():
     buttons = [
             [types.InlineKeyboardButton(text="Практики", callback_data="AdminPractice")],
             [types.InlineKeyboardButton(text="Мастерские", callback_data="AdminWorkshop")],
-            [types.InlineKeyboardButton(text="Отправить уведомление", callback_data="SendAdminToUsers")]
+            [types.InlineKeyboardButton(text="Отправить уведомление", callback_data="SendAdminToUsers")],
+            [types.InlineKeyboardButton(text="Получить меню менторов", callback_data="CancelUserOperation")]
         ]
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
