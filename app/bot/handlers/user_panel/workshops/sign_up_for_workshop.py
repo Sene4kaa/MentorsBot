@@ -39,10 +39,6 @@ def next_available_row(worksheet):
 
 router = Router()
 
-gc = gspread.service_account(filename="test.json")
-sh = gc.open_by_key(settings.SAMPLE_SPREADSHEET_ID)
-worksheet_sign_up = sh.worksheet("SignUpWorkshops")
-
 
 available_workshop_practice_formats = ["Zoom", "Очно, Кронверкский", "Очно, Ломоносова"]
 
@@ -178,10 +174,18 @@ async def ending_adding_workshop_practice(callback: CallbackQuery, state: FSMCon
                 "SELECT surname, name FROM users WHERE user_id=%s", [callback.from_user.id]
             ).fetchall()
     # Добавление участника в гугл-таблицу
+
+    gc = gspread.service_account(filename="test.json")
+    sh = gc.open_by_key(settings.SAMPLE_SPREADSHEET_ID)
+    worksheet_sign_up = sh.worksheet("SignUpWorkshops")
+
     next_row_id = str(int(next_available_row(worksheet_sign_up)) + 1)
     worksheet_sign_up.update_acell(f"A{next_row_id}", user_data["chosen_workshop_practice"])
     worksheet_sign_up.update_acell(f"B{next_row_id}", user_name[0][0])
     worksheet_sign_up.update_acell(f"C{next_row_id}", user_name[0][1])
+    worksheet_sign_up.update_acell(
+        f"D{next_row_id}", user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1])
+    worksheet_sign_up.update_acell(f"E{next_row_id}", user_data["chosen_time"].split(", ")[2])
 
     await callback.message.edit_text(
         text=(
