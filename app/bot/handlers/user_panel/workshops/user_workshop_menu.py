@@ -11,7 +11,7 @@ router = Router()
 async def workshop_menu(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_text(
         text=(
-            "<b>Мастерские</b>\n\nЗдесь можно <i>записаться</i> на мастерские или <i>отменить</i> запись.\n"
+            "<b>Мастерские</b> \n\nЗдесь можно <i>записаться</i> на мастерские или <i>отменить</i> запись.\n"
             "Посещение хотя бы одной мастерской является <u>обязательным</u> условием прохождения курса."
         ),
         reply_markup=get_user_workshop_menu_kb(),
