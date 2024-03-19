@@ -163,12 +163,10 @@ async def practice_additional_info(message: Message, state: FSMContext):
     answer = message.text
     await state.update_data(add_info=answer)
     user_data = await state.get_data()
-
+    await message.delete()
     if user_data["chosen_format"] == "Zoom":
 
-        await message.bot.edit_message_text(
-            chat_id=message.chat.id,
-            message_id=message.message_id - 1,
+        await message.answer(
             text=f"Вы выбрали:\nПредмет: {user_data['chosen_workshop']}\nФормат: {user_data['chosen_format']}"
             + f"\nДата: {user_data['chosen_day']}, {user_data['chosen_month']}\n"
             + f"Время: {user_data['chosen_hour']}:{user_data['chosen_minute']}\nСсылка на Zoom: {user_data['add_info']}",
@@ -176,15 +174,12 @@ async def practice_additional_info(message: Message, state: FSMContext):
         )
     else:
 
-        await message.bot.edit_message_text(
-            chat_id=message.chat.id,
-            message_id=message.message_id - 1,
+        await message.answer(
             text=f"Вы выбрали:\nПредмет: {user_data['chosen_workshop']}\nФормат: {user_data['chosen_format']}"
             + f"\nДата: {user_data['chosen_day']}, {user_data['chosen_month']}\n"
             + f"Время: {user_data['chosen_hour']}:{user_data['chosen_minute']}\nНомер аудитории: {user_data['add_info']}",
             reply_markup=get_save_workshop_kb(),
         )
-    await message.delete()
 
 
 @router.callback_query(F.data == "save_workshop")

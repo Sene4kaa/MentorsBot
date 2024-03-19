@@ -130,8 +130,8 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     if practice_format == "Zoom":
         await callback.message.edit_text(
             text=(
-                f"Ты хочешь записаться на занятие\n\n🧠"
-                + f"Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
+                f"Ты хочешь записаться на занятие\n\n"
+                + f"🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
                 + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>\n"
                 + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
                 + f"\n📆 Дата и время: <b>{user_data['chosen_time']}</b>."
@@ -142,8 +142,8 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     else:
         await callback.message.edit_text(
             text=(
-                    f"Ты хочешь записаться на занятие\n\n🧠"
-                    + f"Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
+                    f"Ты хочешь записаться на занятие\n\n"
+                    + f"🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
                     + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>\n"
                     + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>."
                     + "\n\n<u>Подтверди запись</u>."

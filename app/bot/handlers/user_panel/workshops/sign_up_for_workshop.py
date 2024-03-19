@@ -86,13 +86,11 @@ async def start_signing_up(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(F.data == "CancelToChoosingWorkshopDatetimeOperation")
 async def time_chosen(callback: CallbackQuery, state: FSMContext):
 
-    workshop_practice = get_workshops_format_list(callback.data)[0]
-    await state.update_data(chosen_format=workshop_practice)
     user_data = await state.get_data()
 
     await callback.message.edit_text(
-        text=f"Ты выбрал(а) мастерскую: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
-        + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\nВыбери удобные <i>дату и время</i> занятия",
+        text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
+        + f"Выбери удобные <i>дату и время</i> мастерской",
         reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
             set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
         ),
@@ -104,14 +102,12 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(WorkshopSignUp.choosing_workshop_practice)
 async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
 
-    workshop_practice = get_workshops_format_list(callback.data)[0]
-    await state.update_data(chosen_format=workshop_practice)
     await state.update_data(chosen_workshop_practice=callback.data)
     user_data = await state.get_data()
 
     await callback.message.edit_text(
-        text=f"Ты выбрал(а) мастерскую: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
-        + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{user_data['chosen_format']}</b>\n\nВыбери удобные <i>дату и время</i> занятия",
+        text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
+        + "Выбери удобные <i>дату и время</i> мастерской",
         reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
             set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
         ),
@@ -126,12 +122,39 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     await state.update_data(chosen_time=callback.data)
     user_data = await state.get_data()
 
-    await callback.message.edit_text(
-        text=f"Ты хочешь записаться на мастерскую\n\n🧠 Название: <b>{user_data['chosen_workshop_practice']}</b>\n🎯 Формат: <b>{user_data['chosen_format']}</b>"
-        + f"\n📆 Дата и время: <b>{user_data['chosen_time']}</b>.\n\n<u>Подтверди запись</u>.",
-        reply_markup=get_user_added_workshop_practice_kb(),
-    )
+    with psycopg.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            workshop_format = cursor.execute("""SELECT format FROM workshops_schedule WHERE title=%s AND date=%s""",
+                                             [user_data["chosen_workshop_practice"],
+                                              user_data["chosen_time"].split(', ')[0] + ', ' +
+                                              user_data["chosen_time"].split(', ')[1]]).fetchall()[0][0]
+            conn.commit()
 
+    await state.update_data(chosen_format=workshop_format)
+
+    if workshop_format == "Zoom":
+        await callback.message.edit_text(
+            text=(
+                    f"Ты хочешь записаться на мастерскую\n\n"
+                    + f"🧠 Предмет: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
+                    + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{workshop_format}</b>\n"
+                    + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
+                    + f"\n📆 Дата и время: <b>{user_data['chosen_time']}</b>."
+                    + "\n\n<u>Подтверди запись</u>."
+            ),
+            reply_markup=get_user_added_workshop_practice_kb(),
+        )
+    else:
+        await callback.message.edit_text(
+            text=(
+                    f"Ты хочешь записаться на занятие\n\n"
+                    + f"🧠 Предмет: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
+                    + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{workshop_format}</b>\n"
+                    + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>."
+                    + "\n\n<u>Подтверди запись</u>."
+            ),
+            reply_markup=get_user_added_workshop_practice_kb(),
+        )
     await state.set_state(WorkshopSignUp.signing_up)
 
 
