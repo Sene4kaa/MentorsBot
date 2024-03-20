@@ -43,13 +43,15 @@ async def message_writen(message: Message, state: FSMContext):
 async def sending_message(callback: CallbackQuery, state: FSMContext, bot: Bot):
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            users = cursor.execute("""SELECT chat_id FROM users""").fetchall()
+            users = cursor.execute("""SELECT chat_id FROM users WHERE user_id <> 544476235""").fetchall()
             conn.commit()
     admin_data = await state.get_data()
+    print(admin_data)
 
     for user in users:
         await bot.send_message(chat_id=user[0], text=admin_data["msg"], reply_markup=get_back_to_user_menu_kb())
         await asyncio.sleep(0.033)
+    await bot.send_message(chat_id=5444762353, text=admin_data["msg"], reply_markup=get_back_to_user_menu_kb())
 
     await callback.message.edit_text(
         text="Сообщение отправлено всем пользователям!", reply_markup=get_back_to_admin_menu_kb()

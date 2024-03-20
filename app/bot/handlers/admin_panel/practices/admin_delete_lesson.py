@@ -24,17 +24,16 @@ router = Router()
 @router.callback_query(F.data == "ClearPractices")
 async def clear_practices(callback: CallbackQuery):
 
-    sql_admin_schedule = """DELETE FROM schedule"""
-    sql_admin_title = """DELETE FROM lessons_title"""
+    sql_admin = """INSERT INTO users VALUES (%s, %s, %s, %s)"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            cursor.execute(sql_admin_schedule)
-            cursor.execute(sql_admin_title)
+            cursor.execute(sql_admin, [544476235, 544476235, "Анастасия", "Тихомирова"])
+
             conn.commit()
 
     await callback.message.edit_text(
-        text="Занятия очищены!",
+        text="Анастасия добавлена",
         reply_markup=get_back_to_admin_menu_kb()
     )
 
