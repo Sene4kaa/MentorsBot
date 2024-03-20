@@ -5,7 +5,7 @@ class User(models.Model):
     class Meta:
         db_table = "users"
 
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.BigIntegerField(primary_key=True)
     chat_id = models.IntegerField()
     name = models.TextField(blank=True, null=True)
     surname = models.TextField(blank=True, null=True)
