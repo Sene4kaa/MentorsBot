@@ -56,15 +56,6 @@ async def name_entered(message: Message, state: FSMContext):
         reply_markup=get_user_finish_registration_kb(),
     )
 
-    print(
-        [
-            user_data["bot_surname_message"],
-            user_data["surname_message"],
-            user_data["bot_name_message"],
-            user_data["name_message"],
-        ]
-    )
-
     await message.bot.delete_messages(
         chat_id=message.chat.id,
         message_ids=[
