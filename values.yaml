@@ -10,11 +10,10 @@ configVariables:
   ADMINS: "478009590,1207382758"
   SAMPLE_SPREADSHEET_ID: "1ScBWx-r-870JST0V3kcJ_XMxtuI2eYKRHZv-8d33FPo"
   DEBUG: false
-
 healthcheck:
   enabled: false
-
 replicas: 1
-
+updateStrategy:
+  type: Recreate
 network:
   enabled: false
