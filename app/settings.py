@@ -111,6 +111,22 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Logging
+# https://docs.djangoproject.com/en/4.2/topics/logging/
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {"level": "INFO" if not DEBUG else "DEBUG", "class": "logging.StreamHandler"},
+    },
+    "loggers": {
+        "root": {
+            "handlers": ["console"],
+            "level": "INFO" if not DEBUG else "DEBUG",
+        }
+    },
+}
 
 # Other
 
