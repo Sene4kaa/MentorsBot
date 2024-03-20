@@ -49,21 +49,22 @@ async def cmd_start(message: types.Message, state: FSMContext):
                 await message.answer(**content.as_kwargs(), reply_markup=get_start_user_kb())
 
             else:
-                last_message = cursor.execute(
-                    """SELECT * FROM last_bot_message WHERE user_id=%s""", [message.from_user.id]
-                ).fetchall()
-                if last_message:
-                    last_message = last_message[0][1]
-
+                if message.from_user.id not in AdminList:
+                    last_message = cursor.execute(
+                        """SELECT * FROM last_bot_message WHERE user_id=%s""", [message.from_user.id]
+                    ).fetchall()
                     if last_message:
-                        cursor.execute("""DELETE FROM last_bot_message WHERE user_id=%s""", [message.from_user.id])
+                        last_message = last_message[0][1]
 
-                    for msg in range(last_message, message.message_id):
-                        try:
-                            await message.bot.delete_message(chat_id=message.chat.id, message_id=msg)
+                        if last_message:
+                            cursor.execute("""DELETE FROM last_bot_message WHERE user_id=%s""", [message.from_user.id])
 
-                        except TelegramBadRequest:
-                            pass
+                        for msg in range(last_message, message.message_id):
+                            try:
+                                await message.bot.delete_message(chat_id=message.chat.id, message_id=msg)
+
+                            except TelegramBadRequest:
+                                pass
 
                 if str(message.from_user.id) not in AdminList:
                     sql = """SELECT user_id FROM users"""
