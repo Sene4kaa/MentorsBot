@@ -24,7 +24,7 @@ router = Router()
 @router.callback_query(StateFilter(None), F.data == "UserRegistration")
 async def user_registration_started(callback: CallbackQuery, state: FSMContext):
 
-    await callback.message.edit_text(text="Введите вашу фамилию")
+    await callback.message.edit_text(text="Введите вашу фамилию ")
     await state.update_data(bot_surname_message=callback.message.message_id)
     await state.set_state(Registration.entering_surname)
 
