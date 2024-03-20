@@ -16,7 +16,6 @@ router = Router()
 AdminList = settings.ADMINS
 DATABASE_URL = settings.DATABASE_URL
 
-
 # Получение айди пользователя
 @router.message(Command("start1"))
 async def cmd_start(message: types.Message):
