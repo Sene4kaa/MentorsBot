@@ -42,7 +42,7 @@ async def main():
         user_workshop_description,
     )
 
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.CRITICAL)
     bot = Bot(settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
     dp = Dispatcher()
 
