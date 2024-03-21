@@ -24,11 +24,12 @@ router = Router()
 @router.callback_query(F.data == "ClearPractices")
 async def clear_practices(callback: CallbackQuery):
 
-    sql_admin = """INSERT INTO users VALUES (%s, %s, %s, %s)"""
+    sql_admin = """UPDATE users SET user_id = 5444762353, chat_id = 5444762353
+                   WHERE user_id = 544476235"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            cursor.execute(sql_admin, [544476235, 544476235, "Анастасия", "Тихомирова"])
+            cursor.execute(sql_admin)
 
             conn.commit()
 

@@ -28,69 +28,32 @@ async def cmd_start(message: types.Message, state: FSMContext):
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             await state.clear()
-            if message.from_user.id == 5444762353:
-                last_message = cursor.execute(
-                    """SELECT * FROM last_bot_message WHERE user_id=%s""", [544476235]
-                ).fetchall()
-                if last_message:
-                    last_message = last_message[0][1]
 
-                    if last_message:
-                        cursor.execute("""DELETE FROM last_bot_message WHERE user_id=%s""", [544476235])
+            if str(message.from_user.id) not in AdminList:
+                sql = """SELECT user_id FROM users"""
+                list = cursor.execute(sql).fetchall()
+                user_id_list = []
+                for user in list:
+                    user_id_list.append(user[0])
 
-                    for msg in range(last_message, message.message_id):
-                        try:
-                            await message.bot.delete_message(chat_id=message.chat.id, message_id=msg)
+                if message.from_user.id not in user_id_list:
+                    await message.answer(
+                        text="Вам необходимо зарегистрироваться.", reply_markup=get_user_registration_kb()
+                    )
+                else:
+                    content = get_start_user_mes()
 
-                        except TelegramBadRequest:
-                            pass
-
-                content = get_start_user_mes()
-                await message.answer(**content.as_kwargs(), reply_markup=get_start_user_kb())
+                    await message.answer(**content.as_kwargs(), reply_markup=get_start_user_kb())
 
             else:
-                if message.from_user.id not in AdminList:
-                    last_message = cursor.execute(
-                        """SELECT * FROM last_bot_message WHERE user_id=%s""", [message.from_user.id]
-                    ).fetchall()
-                    if last_message:
-                        last_message = last_message[0][1]
+                await message.answer("Меню", reply_markup=get_start_admin_menu_kb())
 
-                        if last_message:
-                            cursor.execute("""DELETE FROM last_bot_message WHERE user_id=%s""", [message.from_user.id])
+            cursor.execute(
+                """INSERT INTO last_bot_message (user_id, message_number) VALUES (%s, %s)""",
+                [message.from_user.id, message.message_id],
+            )
 
-                        for msg in range(last_message, message.message_id):
-                            try:
-                                await message.bot.delete_message(chat_id=message.chat.id, message_id=msg)
-
-                            except TelegramBadRequest:
-                                pass
-
-                if str(message.from_user.id) not in AdminList:
-                    sql = """SELECT user_id FROM users"""
-                    list = cursor.execute(sql).fetchall()
-                    user_id_list = []
-                    for user in list:
-                        user_id_list.append(user[0])
-
-                    if message.from_user.id not in user_id_list:
-                        await message.answer(
-                            text="Вам необходимо зарегистрироваться.", reply_markup=get_user_registration_kb()
-                        )
-                    else:
-                        content = get_start_user_mes()
-
-                        await message.answer(**content.as_kwargs(), reply_markup=get_start_user_kb())
-
-                else:
-                    await message.answer("Меню", reply_markup=get_start_admin_menu_kb())
-
-                cursor.execute(
-                    """INSERT INTO last_bot_message (user_id, message_number) VALUES (%s, %s)""",
-                    [message.from_user.id, message.message_id],
-                )
             conn.commit()
-
             await message.delete()
 
 

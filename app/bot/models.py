@@ -6,7 +6,7 @@ class User(models.Model):
         db_table = "users"
 
     user_id = models.BigIntegerField(primary_key=True)
-    chat_id = models.IntegerField()
+    chat_id = models.BigIntegerField()
     name = models.TextField(blank=True, null=True)
     surname = models.TextField(blank=True, null=True)
 
