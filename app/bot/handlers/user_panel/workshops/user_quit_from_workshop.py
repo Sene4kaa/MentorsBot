@@ -68,14 +68,9 @@ async def reason_chosen(callback: CallbackQuery, state: FSMContext):
             cursor.execute(sql_quit_reason, [workshop[0][1], callback.data])
             conn.commit()
 
-            if callback.from_user.id == 5444762353:
-                user_name = cursor.execute(
-                    "SELECT surname, name FROM users WHERE user_id=%s", [544476235]
-                ).fetchall()
-            else:
-                user_name = cursor.execute(
-                    "SELECT surname, name FROM users WHERE user_id=%s", [callback.from_user.id]
-                ).fetchall()
+            user_name = cursor.execute(
+                "SELECT surname, name FROM users WHERE user_id=%s", [callback.from_user.id]
+            ).fetchall()
 
     res = [
         i + 1
