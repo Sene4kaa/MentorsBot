@@ -33,7 +33,7 @@ async def lesson_entered(message: Message, state: FSMContext):
     await message.delete()
     await state.update_data(entered_lesson=answer)
 
-    await message.answer(text=f"Вы ввели {answer}", reply_markup=delete_admin_practice_kb())
+    await message.answer(text=f"Вы ввели\n<b>{answer}</b>", reply_markup=delete_admin_practice_kb())
 
     await state.set_state(NewLesson.accepting_lesson)
 

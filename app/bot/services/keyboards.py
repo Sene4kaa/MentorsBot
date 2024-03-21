@@ -5,19 +5,21 @@ from aiogram.types import InlineKeyboardMarkup
 
 # Клавиатура для стартового сообщения админам
 def get_admin_practice_menu_kb():
-    buttons = [[
-            types.InlineKeyboardButton(text="Проверить участников", callback_data="CheckStudents")],
+    buttons = [
+            [types.InlineKeyboardButton(text="Проверить участников", callback_data="CheckStudents")],
             [types.InlineKeyboardButton(text="Добавить предмет", callback_data="AddLesson"),
-            types.InlineKeyboardButton(text="Удалить предмет", callback_data="DeleteLesson")],
+             types.InlineKeyboardButton(text="Удалить предмет", callback_data="DeleteLesson")],
             [types.InlineKeyboardButton(text="Добавить занятие", callback_data="AddPractice"),
-            types.InlineKeyboardButton(text="Убрать занятие", callback_data="DeletePractice")],
-            [types.InlineKeyboardButton(text="Посмотреть причины отказов", callback_data="CheckQuitReasons")],
+             types.InlineKeyboardButton(text="Убрать занятие", callback_data="DeletePractice")],
+            [types.InlineKeyboardButton(text="Проверить занятие", callback_data="AdminCheckPractices"),
+             types.InlineKeyboardButton(text="Посмотреть причины отказов", callback_data="CheckQuitReasons")],
             [types.InlineKeyboardButton(text="Вернуться в главное меню", callback_data="CancelAdminOperation")],
             [types.InlineKeyboardButton(text="БЕЗ ПРИКАЗА СЕНИ НЕ ЖАТЬ", callback_data="ClearPractices")]
         ]
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_admin_workshop_menu_kb():
     buttons = [[
@@ -32,6 +34,7 @@ def get_admin_workshop_menu_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_start_admin_menu_kb():
     buttons = [
@@ -56,6 +59,7 @@ def get_start_user_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
 
+
 # Клавиатура для меню
 def get_menu_kb():
 
@@ -69,6 +73,7 @@ def get_menu_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 # Клавиатура для дорожной карты
 def get_roadmap_kb():
@@ -84,6 +89,7 @@ def get_roadmap_kb():
     keyboard = builder.as_markup()
     
     return keyboard
+
 
 # Универсальная клавиатура
 def get_admin_number_list_kb(items: list[str]) -> InlineKeyboardMarkup:
@@ -105,6 +111,7 @@ def get_admin_number_list_kb(items: list[str]) -> InlineKeyboardMarkup:
 
     return builder.as_markup()
 
+
 def get_admin_list_kb(items: list[str]) -> InlineKeyboardMarkup:
     
     builder = InlineKeyboardBuilder()
@@ -117,6 +124,7 @@ def get_admin_list_kb(items: list[str]) -> InlineKeyboardMarkup:
     )
     builder.adjust(1)
     return builder.as_markup()
+
 
 def get_user_list_kb(items: list[str]) -> InlineKeyboardMarkup:
     
@@ -131,6 +139,7 @@ def get_user_list_kb(items: list[str]) -> InlineKeyboardMarkup:
     builder.adjust(1)
 
     return builder.as_markup()
+
 
 def get_user_list_cancel_sign_up(items: list[str]) -> InlineKeyboardMarkup:
     
@@ -149,6 +158,7 @@ def get_user_list_cancel_sign_up(items: list[str]) -> InlineKeyboardMarkup:
 
     return builder.as_markup()
 
+
 def get_user_list_cancel_workshop_sign_up(items: list[str]) -> InlineKeyboardMarkup:
     
     builder = InlineKeyboardBuilder()
@@ -166,7 +176,6 @@ def get_user_list_cancel_workshop_sign_up(items: list[str]) -> InlineKeyboardMar
 
     return builder.as_markup()
 
-
 # Сохранение данных
 def get_save_lesson_kb():
     
@@ -177,6 +186,7 @@ def get_save_lesson_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_save_workshop_kb():
     
@@ -199,6 +209,7 @@ def delete_admin_practice_kb():
 
     return keyboard
 
+
 def get_user_accept_kb():
     buttons = [
         [types.InlineKeyboardButton(text="✔️ Подтвердить", callback_data="AcceptingUser")],
@@ -207,6 +218,7 @@ def get_user_accept_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 # Кнопка возвращения в меню
 def get_back_to_admin_menu_kb():
 
@@ -217,6 +229,7 @@ def get_back_to_admin_menu_kb():
 
     return keyboard
 
+
 def get_back_to_user_menu_kb():
 
     buttons = [
@@ -225,6 +238,7 @@ def get_back_to_user_menu_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_user_added_practice_kb():
 
@@ -237,6 +251,7 @@ def get_user_added_practice_kb():
 
     return keyboard
 
+
 def get_user_added_workshop_practice_kb():
 
     buttons = [
@@ -248,6 +263,7 @@ def get_user_added_workshop_practice_kb():
 
     return keyboard
 
+
 def get_user_registration_kb():
 
     buttons = [
@@ -256,6 +272,7 @@ def get_user_registration_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_user_finish_registration_kb():
     buttons = [
@@ -282,6 +299,7 @@ def get_user_sign_or_quit_practice_kb():
 
     return keyboard
 
+
 def get_3_points_kb():
     buttons = [
         [types.InlineKeyboardButton(text="1️⃣", callback_data="1"),
@@ -291,6 +309,7 @@ def get_3_points_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_user_list_cancel_sign_up_practice_kb(items):
     
@@ -309,6 +328,7 @@ def get_user_list_cancel_sign_up_practice_kb(items):
 
     return builder.as_markup()
 
+
 def get_user_list_cancel_sign_up_workshop_practice_kb(items):
     
     builder = InlineKeyboardBuilder()
@@ -325,6 +345,7 @@ def get_user_list_cancel_sign_up_workshop_practice_kb(items):
     builder.adjust(1)
 
     return builder.as_markup()
+
 
 def get_user_list_cancel_sign_up_format_kb(items):
     
@@ -343,6 +364,7 @@ def get_user_list_cancel_sign_up_format_kb(items):
 
     return builder.as_markup()
 
+
 def get_user_list_cancel_sign_up_workshop_format_kb(items):
     
     builder = InlineKeyboardBuilder()
@@ -360,6 +382,7 @@ def get_user_list_cancel_sign_up_workshop_format_kb(items):
 
     return builder.as_markup()
 
+
 def get_user_accepting_quit_kb():
     buttons = [
         [types.InlineKeyboardButton(text="✔️ Подтвердить", callback_data="Accepting")],
@@ -369,6 +392,7 @@ def get_user_accepting_quit_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_user_cancel_quit_practice_kb(items):
     builder = InlineKeyboardBuilder()
@@ -386,6 +410,7 @@ def get_user_cancel_quit_practice_kb(items):
 
     return builder.as_markup()
 
+
 def get_user_cancel_quit_reason_kb(items):
     builder = InlineKeyboardBuilder()
 
@@ -401,6 +426,7 @@ def get_user_cancel_quit_reason_kb(items):
     builder.adjust(1)
 
     return builder.as_markup()
+
 
 def get_user_cancel_quit_kb(items):
     builder = InlineKeyboardBuilder()
@@ -418,6 +444,7 @@ def get_user_cancel_quit_kb(items):
 
     return builder.as_markup()
 
+
 def get_user_workshop_menu_kb():
     buttons = [
         [types.InlineKeyboardButton(text="📑 Описание мастерских", callback_data="WorkshopDescriptions")],
@@ -430,6 +457,7 @@ def get_user_workshop_menu_kb():
 
     return keyboard
 
+
 def get_back_to_user_own_practices_menu_kb():
     buttons = [
         [types.InlineKeyboardButton(text="⬅️ Назад", callback_data="CheckForMyPractices")],
@@ -438,6 +466,7 @@ def get_back_to_user_own_practices_menu_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_back_to_user_practice_menu_kb(items):
     builder = InlineKeyboardBuilder()
@@ -455,6 +484,7 @@ def get_back_to_user_practice_menu_kb(items):
 
     return builder.as_markup()
 
+
 def get_back_to_user_own_workshop_menu_kb():
 
     buttons = [
@@ -464,6 +494,7 @@ def get_back_to_user_own_workshop_menu_kb():
     keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
 
     return keyboard
+
 
 def get_back_to_user_workshop_menu_kb(items):
 
@@ -481,3 +512,31 @@ def get_back_to_user_workshop_menu_kb(items):
     builder.adjust(1)
 
     return builder.as_markup()
+
+
+def get_admin_list_cancel_sign_up_practice_kb(items):
+    builder = InlineKeyboardBuilder()
+
+    for item in items:
+        builder.button(text=item, callback_data=item)
+
+    builder.row(types.InlineKeyboardButton(
+        text="⬅️ Назад", callback_data="AdminCancelToChoosingPracticeOperation")
+    )
+    builder.row(types.InlineKeyboardButton(
+        text="🚀 Меню", callback_data="CancelAdminOperation")
+    )
+    builder.adjust(1)
+
+    return builder.as_markup()
+
+
+def get_admin_added_practice_kb():
+
+    buttons = [
+        [types.InlineKeyboardButton(text="⬅️ Назад", callback_data="AdminCancelToChoosingDatetimeOperation")],
+        [types.InlineKeyboardButton(text="🚀 Меню", callback_data="CancelAdminOperation")]
+    ]
+    keyboard = types.InlineKeyboardMarkup(inline_keyboard=buttons)
+
+    return keyboard

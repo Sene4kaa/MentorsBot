@@ -15,6 +15,7 @@ from bot.handlers.admin_panel.practices import (
     admin_new_lesson,
     admin_check_students,
     admin_quited_practice_reasons,
+    admin_check_practice
 )
 from bot.handlers.admin_panel.workshops import (
     admin_add_workshop,
@@ -57,6 +58,7 @@ async def main():
         admin_new_lesson.router,
         admin_check_students.router,
         admin_quited_practice_reasons.router,
+        admin_check_practice.router,
         admin_add_workshop.router,
         admin_add_workshop_practice.router,
         admin_delete_workshop.router,

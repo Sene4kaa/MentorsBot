@@ -39,7 +39,6 @@ def next_available_row(worksheet):
 
 router = Router()
 
-
 available_workshop_practice_formats = ["Zoom", "Очно, Кронверкский", "Очно, Ломоносова"]
 
 
