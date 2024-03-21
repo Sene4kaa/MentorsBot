@@ -29,7 +29,7 @@ class Practice(models.Model):
     class Meta:
         db_table = "practices"
 
-    user_id = models.IntegerField()
+    user_id = models.BigIntegerField()
     lessons = models.TextField()
     format = models.TextField()
     date = models.TextField()
@@ -59,8 +59,8 @@ class LastBotMessage(models.Model):
     class Meta:
         db_table = "last_bot_message"
 
-    user_id = models.IntegerField()
-    message_number = models.IntegerField()
+    user_id = models.BigIntegerField()
+    message_number = models.BigIntegerField()
     id = models.BigAutoField(primary_key=True)
 
 
@@ -82,7 +82,7 @@ class Workshop(models.Model):
     class Meta:
         db_table = "workshops"
 
-    user_id = models.IntegerField()
+    user_id = models.BigIntegerField()
     title = models.TextField()
     format = models.TextField()
     date = models.TextField()
