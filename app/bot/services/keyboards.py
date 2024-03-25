@@ -447,7 +447,10 @@ def get_user_cancel_quit_kb(items):
 
 def get_user_workshop_menu_kb():
     buttons = [
-        [types.InlineKeyboardButton(text="📑 Описание мастерских", callback_data="WorkshopDescriptions")],
+        [types.InlineKeyboardButton(
+            text="✨ Описание мастерских",
+            url="https://drive.google.com/file/d/1r_Mr6-ZqjxDY_pr6bKvYKTgJA3JCTKpo/view?usp=drive_link"
+        )],
         [types.InlineKeyboardButton(text="😊 Записаться", callback_data="SignUpForWorkshopPractice"),
         types.InlineKeyboardButton(text="🤐 Отписаться", callback_data="QuitWorkshop")],
         [types.InlineKeyboardButton(text="📋 Мои записи", callback_data="CheckOwnWorkshop")],
