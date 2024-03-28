@@ -257,7 +257,7 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     else:
         await callback.message.edit_text(
             text=(
-                    f"Ты хочешь записаться на занятие\n\n"
+                    f"Ты хочешь записаться на мастерскую\n\n"
                     + f"🧠 Предмет: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
                     + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{workshop_format}</b>\n"
                     + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>."
