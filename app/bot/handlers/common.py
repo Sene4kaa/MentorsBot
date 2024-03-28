@@ -48,10 +48,22 @@ async def cmd_start(message: types.Message, state: FSMContext):
             else:
                 await message.answer("Меню", reply_markup=get_start_admin_menu_kb())
 
-            cursor.execute(
-                """INSERT INTO last_bot_message (user_id, message_number) VALUES (%s, %s)""",
-                [message.from_user.id, message.message_id],
-            )
+            cursor.execute("""INSERT INTO last_bot_message VALUES (%s, %s)""",
+                           [message.from_user.id, message.message_id - 1])
+
+            bot_messages = cursor.execute(
+                "SELECT * FROM last_bot_message WHERE user_id=%s", [message.from_user.id]
+            ).fetchall()
+            cursor.execute("""DELETE FROM last_bot_message WHERE user_id=%s""", [message.from_user.id])
+
+            for bot_message in bot_messages:
+                try:
+                    await message.bot.delete_message(
+                        chat_id=message.from_user.id,
+                        message_id=bot_message[1]
+                    )
+                finally:
+                    continue
 
             conn.commit()
             await message.delete()
