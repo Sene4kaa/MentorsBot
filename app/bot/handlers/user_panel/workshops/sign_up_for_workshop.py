@@ -91,12 +91,12 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
             + "<u>Расписание для данной мастерской</u>:\n\n"
-            + "1. Занятие 1, 9 апреля 17:00 - 18:30, онлайн\n"
-            + "2. Занятие 2, 18 апреля 16:00 - 19:00, онлайн\n"
-            + "3. Занятие 3, 23 апреля 17:00 - 18:30, онлайн\n"
-            + "4.  Занятие 4, 7 мая 16:00 - 19:00, онлайн\n\n"
-            + "<u>Индивидуальные консультации по запросу: с 15 мая по 15 июня</u>\n\n"
-            + "Выбери удобные <i>дату и время</i> мастерской",
+            + "Занятие 1. 9 апреля 17:00 - 18:30, онлайн\n"
+            + "Занятие 2. 18 апреля 16:00 - 19:00, онлайн\n"
+            + "Занятие 3. 23 апреля 17:00 - 18:30, онлайн\n"
+            + "Занятие 4. 7 мая 16:00 - 19:00, онлайн\n\n"
+            + "<u>Индивидуальные консультации по запросу: с 15 мая по 15 июня</u>",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -105,10 +105,10 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 5 апреля 17:00-18:30, онлайн\n"
-                 + "2. Занятие 2, 16 апреля 15:20-16:50, онлайн\n"
-                 + "3. Очный тренинг:  с 22 апреля по 27 апреля, дата по согласованию с участниками\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 5 апреля 17:00-18:30, онлайн\n"
+                 + "Занятие 2. 16 апреля 15:20-16:50, онлайн\n"
+                 + "Очный тренинг. C 22 апреля по 27 апреля, дата по согласованию с участниками",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -117,9 +117,9 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 12 апреля 15:20 - 16:50, онлайн\n"
-                 + "2. Занятие 2, 19 апреля 15:20 - 16:50, онлайн\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 12 апреля 15:20 - 16:50, онлайн\n"
+                 + "Занятие 2. 19 апреля 15:20 - 16:50, онлайн\n\n",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -128,11 +128,11 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 1 апреля 15.20-16.50, онлайн\n"
-                 + "2. Занятие 2, 12 апреля 11.40-13.10, онлайн\n"
-                 + "3. Занятие 3, 19 апреля 11.40-13.10, онлайн\n"
-                 + "4.  Занятие 4, 22 апреля 15.20 - 16.50, онлайн\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 1 апреля 15.20-16.50, онлайн\n"
+                 + "Занятие 2. 12 апреля 11.40-13.10, онлайн\n"
+                 + "Занятие 3. 19 апреля 11.40-13.10, онлайн\n"
+                 + "Занятие 4. 22 апреля 15.20 - 16.50, онлайн\n\n",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -141,11 +141,11 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 15 апреля 17:00-18:30, очно\n"
-                 + "2. Занятие 2, 22 апреля 17:00-18:30, очно\n"
-                 + "3. Занятие 3, 29 апреля 17:00-18:30, очно\n\n"
-                 + "<u>Консультация с разбором плана занятия: с 7 апреля по 15 апреля</u>\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 15 апреля 17:00-18:30, очно\n"
+                 + "Занятие 2. 22 апреля 17:00-18:30, очно\n"
+                 + "Занятие 3. 29 апреля 17:00-18:30, очно\n\n"
+                 + "<u>Консультация с разбором плана занятия: с 7 апреля по 15 апреля</u>",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -163,12 +163,12 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 9 апреля 17:00 - 18:30, онлайн\n"
-                 + "2. Занятие 2, 18 апреля 16:00 - 19:00, онлайн\n"
-                 + "3. Занятие 3, 23 апреля 17:00 - 18:30, онлайн\n"
-                 + "4. Занятие 4, 7 мая 16:00 - 19:00, онлайн\n\n"
-                 + "<u>Индивидуальные консультации по запросу: с 15 мая по 15 июня</u>\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 9 апреля 17:00 - 18:30, онлайн\n"
+                 + "Занятие 2. 18 апреля 16:00 - 19:00, онлайн\n"
+                 + "Занятие 3. 23 апреля 17:00 - 18:30, онлайн\n"
+                 + "Занятие 4. 7 мая 16:00 - 19:00, онлайн\n\n"
+                 + "<u>Индивидуальные консультации по запросу: с 15 мая по 15 июня</u>",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -177,10 +177,10 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 5 апреля 17:00-18:30, онлайн\n"
-                 + "2. Занятие 2, 16 апреля 15:20-16:50, онлайн\n"
-                 + "3. Очный тренинг:  с 22 апреля по 27 апреля, дата по согласованию с участниками\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 5 апреля 17:00-18:30, онлайн\n"
+                 + "Занятие 2. 16 апреля 15:20-16:50, онлайн\n"
+                 + "Очный тренинг.  C 22 апреля по 27 апреля, дата по согласованию с участниками",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -189,9 +189,9 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 12 апреля 15:20 - 16:50, онлайн\n"
-                 + "2. Занятие 2, 19 апреля 15:20 - 16:50, онлайн\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 12 апреля 15:20 - 16:50, онлайн\n"
+                 + "Занятие 2. 19 апреля 15:20 - 16:50, онлайн",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -200,11 +200,11 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 1 апреля 15.20-16.50, онлайн\n"
-                 + "2. Занятие 2, 12 апреля 11.40-13.10, онлайн\n"
-                 + "3. Занятие 3, 19 апреля 11.40-13.10, онлайн\n"
-                 + "4.  Занятие 4, 22 апреля 15.20 - 16.50, онлайн\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 1 апреля 15.20-16.50, онлайн\n"
+                 + "Занятие 2. 12 апреля 11.40-13.10, онлайн\n"
+                 + "Занятие 3. 19 апреля 11.40-13.10, онлайн\n"
+                 + "Занятие 4. 22 апреля 15.20 - 16.50, онлайн\n\n",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
@@ -213,11 +213,11 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "1. Занятие 1, 15 апреля 17:00-18:30, очно\n"
-                 + "2. Занятие 2, 22 апреля 17:00-18:30, очно\n"
-                 + "3. Занятие 3, 29 апреля 17:00-18:30, очно\n\n"
-                 + "<u>Консультация с разбором плана занятия: с 7 апреля по 15 апреля</u>\n\n"
-                 + "Выбери удобные <i>дату и время</i> мастерской",
+                 + "Занятие 1. 15 апреля 17:00-18:30, очно\n"
+                 + "Занятие 2. 22 апреля 17:00-18:30, очно\n"
+                 + "Занятие 3. 29 апреля 17:00-18:30, очно\n\n"
+                 + "<u>Консультация с разбором плана занятия: с 7 апреля по 15 апреля</u>",
+
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
