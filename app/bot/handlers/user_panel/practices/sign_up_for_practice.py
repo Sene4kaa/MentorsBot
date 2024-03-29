@@ -131,10 +131,10 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=(
                 f"Ты хочешь записаться на занятие\n\n"
-                + f"🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
+                + f"🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n"
+                + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>.\n\n"
                 + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>\n"
                 + f"<u>Для того, чтобы онлайн-занятие было засчитано, необходимо включение микрофона и веб-камеры</u>"
-                + f"\n📆 Дата и время: <b>{user_data['chosen_time']}</b>."
                 + "\n\n<u>Подтверди запись</u>.\nМожет занять некоторое время."
             ),
             reply_markup=get_user_added_practice_kb(),
@@ -143,9 +143,9 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=(
                     f"Ты хочешь записаться на занятие\n\n"
-                    + f"🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n\n"
-                    + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>\n"
-                    + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>."
+                    + f"🧠 Предмет: <b>{user_data['chosen_practice']}</b>\n"
+                    + f"📆 Дата и время: <b>{user_data['chosen_time']}</b>\n\n"
+                    + f"❗️ Обрати внимание ❗️\nФормат занятия: <b>{practice_format}</b>"
                     + "\n\n<u>Подтверди запись</u>.\nМожет занять некоторое время."
             ),
             reply_markup=get_user_added_practice_kb(),
@@ -204,6 +204,7 @@ async def ending_adding_practice(callback: CallbackQuery, state: FSMContext):
     worksheet_sign_up.update_acell(
         f"D{next_row_id}", user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1])
     worksheet_sign_up.update_acell(f"E{next_row_id}", user_data["chosen_time"].split(", ")[2])
+    worksheet_sign_up.update_acell(f"F{next_row_id}", "Записан(а)")
 
 
     await callback.message.edit_text(

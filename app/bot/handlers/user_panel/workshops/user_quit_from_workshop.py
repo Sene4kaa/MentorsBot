@@ -14,6 +14,7 @@ DATABASE_URL = settings.DATABASE_URL
 
 
 class QuitWorkshop(StatesGroup):
+    choosing_workshop = State()
     accepting_quit = State()
     choosing_reason = State()
 
@@ -30,16 +31,22 @@ reasons = ["Накладка в расписании", "Не успеваю", "�
 @router.callback_query(StateFilter(None), F.data == "QuitWorkshop")
 async def start_quiting_workshop(callback: CallbackQuery, state: FSMContext):
 
-    sql = "SELECT * FROM workshops WHERE user_id=%s"
+    sql = "SELECT title FROM workshops WHERE user_id=%s"
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            workshop = cursor.execute(sql, [callback.from_user.id]).fetchall()
+            workshop_titles = cursor.execute(sql, [callback.from_user.id]).fetchall()
 
-    if workshop:
+    if workshop_titles:
+
+        workshop = []
+        for x in workshop_titles:
+            workshop.append(x[0])
+
         await callback.message.edit_text(
-            text=f"Подтвердите отмену записи на мастерскую:\n<b>{workshop[0][1]}</b>", reply_markup=get_user_accept_kb()
+            text=f"Выберите мастерскую, от которой хотите описаться 👀",
+            reply_markup=get_user_list_kb(workshop)
         )
-        await state.set_state(QuitWorkshop.accepting_quit)
+        await state.set_state(QuitWorkshop.choosing_workshop)
 
     else:
         await callback.message.edit_text(
@@ -47,8 +54,10 @@ async def start_quiting_workshop(callback: CallbackQuery, state: FSMContext):
         )
 
 
-@router.callback_query(QuitWorkshop.accepting_quit)
+@router.callback_query(QuitWorkshop.choosing_workshop)
 async def quit_accepted(callback: CallbackQuery, state: FSMContext):
+
+    await state.update_data(chosen_workshop=callback.data)
 
     await callback.message.edit_text(text="Укажите, пожалуйста причину отмены", reply_markup=get_user_list_kb(reasons))
     await state.set_state(QuitWorkshop.choosing_reason)
@@ -57,28 +66,32 @@ async def quit_accepted(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(QuitWorkshop.choosing_reason)
 async def reason_chosen(callback: CallbackQuery, state: FSMContext):
 
-    sql = "DELETE FROM workshops WHERE user_id=%s"
+    user_data = await state.get_data()
+
+    sql = "DELETE FROM workshops WHERE user_id=%s AND title=%s"
     sql_workshop = "SELECT * FROM workshops WHERE user_id=%s"
     sql_quit_reason = """INSERT INTO quited_workshops (workshop, reason) VALUES (%s, %s)"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             workshop = cursor.execute(sql_workshop, [callback.from_user.id]).fetchall()
-            cursor.execute(sql, [callback.from_user.id])
             cursor.execute(sql_quit_reason, [workshop[0][1], callback.data])
-            conn.commit()
 
             user_name = cursor.execute(
                 "SELECT surname, name FROM users WHERE user_id=%s", [callback.from_user.id]
             ).fetchall()
 
-    res = [
-        i + 1
-        for i, r in enumerate(worksheet_sign_up.get_all_values())
-        if r[0] == workshop[0][0] and r[1] == user_name[0][0] and r[2] == user_name[0][1]
-    ]
-    if res:
-        worksheet_sign_up.delete_rows(res[0])
+            res = [
+                i + 1
+                for i, r in enumerate(worksheet_sign_up.get_all_values())
+                if r[0] == user_data['chosen_workshop'] and r[1] == user_name[0][0] and r[2] == user_name[0][1]
+                and r[5] == "Записан(а)"
+            ]
+            if res:
+                worksheet_sign_up.update_acell(f"F{res[0]}", "Отписан(а)")
+
+            cursor.execute(sql, [callback.from_user.id, user_data['chosen_workshop']])
+            conn.commit()
 
     await callback.message.edit_text(
         text="Вы успешно отписались от мастерской!", reply_markup=get_back_to_user_menu_kb()
