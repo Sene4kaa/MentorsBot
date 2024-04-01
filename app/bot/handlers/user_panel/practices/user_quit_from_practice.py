@@ -122,10 +122,10 @@ async def successful(callback: CallbackQuery, state: FSMContext):
         i + 1
         for i, r in enumerate(worksheet_sign_up.get_all_values())
         if r[0] == user_data["chosen_practice"] and r[1] == user_name[0][0] and r[2] == user_name[0][1]
-           and r[5] == "Записан(а)"
+           and r[5] != "Отписан(а)"
     ]
-    if res:
-        worksheet_sign_up.update_acell(f"F{res[0]}", "Отписан(а)")
+    for cell in res:
+        worksheet_sign_up.update_acell(f"F{cell}", "Отписан(а)")
 
     await callback.message.edit_text(
         text=f"Вы успешно отписались от занятия <b>{user_data['chosen_practice']}</b>!",

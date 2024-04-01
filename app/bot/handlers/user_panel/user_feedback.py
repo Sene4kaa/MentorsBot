@@ -31,7 +31,6 @@ def next_available_row(worksheet):
 gc = gspread.service_account(filename="test.json")
 sh = gc.open_by_key(settings.SAMPLE_SPREADSHEET_ID)
 worksheet_lesson = sh.worksheet("Lessons")
-worksheet_id = sh.worksheet("ID")
 
 
 router = Router()
