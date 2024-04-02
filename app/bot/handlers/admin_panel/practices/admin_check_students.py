@@ -95,10 +95,8 @@ async def practice_chosen(callback: CallbackQuery, state: FSMContext):
             user_ids = []
             for user in tuple_user_ids:
                 user_ids.append(user[0])
-            sql_users = """SELECT surname, name FROM users WHERE user_id IN ({0})""".format(
-                ", ".join("%s" for _ in user_ids)
-            )
-            names = cursor.execute(sql_users, user_ids).fetchall()
+            sql_users = f"""SELECT surname, name FROM users WHERE user_id = ANY(ARRAY{user_ids}::bigint[])"""
+            names = cursor.execute(sql_users).fetchall()
 
     names_number = len(names)
     names_surnames = []

@@ -77,7 +77,7 @@ async def workshop_chosen(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
 
     sql_schedule = """SELECT user_id FROM workshops WHERE
-                      workshops = %s AND format = %s AND date = %s AND hours = %s AND minutes = %s"""
+                      title = %s AND format = %s AND date = %s AND hours = %s AND minutes = %s"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
@@ -95,10 +95,8 @@ async def workshop_chosen(callback: CallbackQuery, state: FSMContext):
             user_ids = []
             for user in tuple_user_ids:
                 user_ids.append(user[0])
-            sql_users = """SELECT surname, name FROM users WHERE user_id IN ({0})""".format(
-                ", ".join("%s" for _ in user_ids)
-            )
-            names = cursor.execute(sql_users, user_ids).fetchall()
+            sql_users = f"""SELECT surname, name FROM users WHERE user_id = ANY(ARRAY{user_ids}::bigint[])"""
+            names = cursor.execute(sql_users).fetchall()
 
     names_number = len(names)
     names_surnames = []
