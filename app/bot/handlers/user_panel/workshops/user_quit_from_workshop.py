@@ -69,6 +69,12 @@ async def reason_chosen(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
 
     sql = "DELETE FROM workshops WHERE user_id=%s AND title=%s"
+    sql_schedule_info = "SELECT * FROM workshops WHERE user_id=%s AND title=%s"
+
+    sql_schedule = """UPDATE workshops_schedule 
+            SET users_number = users_number - 1 
+            WHERE title=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
+
     sql_workshop = "SELECT * FROM workshops WHERE user_id=%s"
     sql_quit_reason = """INSERT INTO quited_workshops (workshop, reason) VALUES (%s, %s)"""
 
@@ -76,6 +82,12 @@ async def reason_chosen(callback: CallbackQuery, state: FSMContext):
         with conn.cursor() as cursor:
             workshop = cursor.execute(sql_workshop, [callback.from_user.id]).fetchall()
             cursor.execute(sql_quit_reason, [workshop[0][1], callback.data])
+
+            schedule_info = cursor.execute(sql_schedule_info,
+                                           [callback.from_user.id, user_data['chosen_workshop']]).fetchall()
+
+            cursor.execute(sql_schedule, [schedule_info[0][1], schedule_info[0][2], schedule_info[0][3],
+                                          schedule_info[0][4], schedule_info[0][5]])
 
             user_name = cursor.execute(
                 "SELECT surname, name FROM users WHERE user_id=%s", [callback.from_user.id]

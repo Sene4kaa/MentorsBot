@@ -105,11 +105,25 @@ async def successful(callback: CallbackQuery, state: FSMContext):
 
     user_data = await state.get_data()
     sql_quit_reason = """INSERT INTO quited_practice (practice, reason) VALUES (%s, %s)"""
+
+    sql_schedule_info = "SELECT * FROM practices WHERE user_id=%s AND lessons=%s"
+
+    sql_schedule = """UPDATE schedule 
+            SET users_number = users_number - 1 
+            WHERE lesson=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
+
     sql_practice = """DELETE FROM practices WHERE lessons=%s AND user_id=%s"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql_quit_reason, [user_data["chosen_practice"], user_data["chosen_reason"]])
+
+            schedule_info = cursor.execute(sql_schedule_info,
+                                           [callback.from_user.id, user_data['chosen_practice']]).fetchall()
+
+            cursor.execute(sql_schedule, [schedule_info[0][1], schedule_info[0][2], schedule_info[0][3],
+                                          schedule_info[0][4], schedule_info[0][5]])
+
             cursor.execute(sql_practice, [user_data["chosen_practice"], callback.from_user.id])
 
             user_name = cursor.execute(
