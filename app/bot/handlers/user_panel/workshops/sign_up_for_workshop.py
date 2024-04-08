@@ -272,6 +272,8 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
 async def ending_adding_workshop_practice(callback: CallbackQuery, state: FSMContext):
 
     user_data = await state.get_data()
+
+    sql_check = """SELECT * FROM workshops WHERE user_id =%s AND title=%s"""
     sql_workshop_practices = """INSERT INTO workshops (user_id, title, format, date, hours, minutes)
              VALUES (%s, %s, %s, %s, %s, %s)"""
     sql_schedule = """UPDATE workshops_schedule 
@@ -280,28 +282,30 @@ async def ending_adding_workshop_practice(callback: CallbackQuery, state: FSMCon
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            cursor.execute(
-                sql_workshop_practices,
-                [
-                    callback.from_user.id,
-                    user_data["chosen_workshop_practice"],
-                    user_data["chosen_format"],
-                    user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1],
-                    user_data["chosen_time"].split(", ")[2][:2],
-                    user_data["chosen_time"].split(", ")[2][3:],
-                ],
-            )
-            cursor.execute(
-                sql_schedule,
-                [
-                    user_data["chosen_workshop_practice"],
-                    user_data["chosen_format"],
-                    user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1],
-                    user_data["chosen_time"].split(", ")[2][:2],
-                    user_data["chosen_time"].split(", ")[2][3:],
-                ],
-            )
 
+            check = cursor.execute(sql_check, [callback.from_user.id, user_data["chosen_workshop_practice"]]).fetchall()
+            if not check:
+                cursor.execute(
+                    sql_workshop_practices,
+                    [
+                        callback.from_user.id,
+                        user_data["chosen_workshop_practice"],
+                        user_data["chosen_format"],
+                        user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1],
+                        user_data["chosen_time"].split(", ")[2][:2],
+                        user_data["chosen_time"].split(", ")[2][3:],
+                    ],
+                )
+                cursor.execute(
+                    sql_schedule,
+                    [
+                        user_data["chosen_workshop_practice"],
+                        user_data["chosen_format"],
+                        user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1],
+                        user_data["chosen_time"].split(", ")[2][:2],
+                        user_data["chosen_time"].split(", ")[2][3:],
+                    ],
+                )
 
             user_name = cursor.execute(
                 "SELECT surname, name FROM users WHERE user_id=%s", [callback.from_user.id]
@@ -313,15 +317,23 @@ async def ending_adding_workshop_practice(callback: CallbackQuery, state: FSMCon
     gc = gspread.service_account(filename="test.json")
     sh = gc.open_by_key(settings.SAMPLE_SPREADSHEET_ID)
     worksheet_sign_up = sh.worksheet("SignUpWorkshops")
-
     next_row_id = str(int(next_available_row(worksheet_sign_up)) + 1)
-    worksheet_sign_up.update_acell(f"A{next_row_id}", user_data["chosen_workshop_practice"])
-    worksheet_sign_up.update_acell(f"B{next_row_id}", user_name[0][0])
-    worksheet_sign_up.update_acell(f"C{next_row_id}", user_name[0][1])
-    worksheet_sign_up.update_acell(
-        f"D{next_row_id}", user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1])
-    worksheet_sign_up.update_acell(f"E{next_row_id}", user_data["chosen_time"].split(", ")[2])
-    worksheet_sign_up.update_acell(f"F{next_row_id}", "Записан(а)")
+
+    if (worksheet_sign_up.cell(int(next_row_id) - 1, 1).value != user_data["chosen_workshop_practice"]
+        or worksheet_sign_up.cell(int(next_row_id) - 1, 2).value != user_name[0][0]
+        or worksheet_sign_up.cell(int(next_row_id) - 1, 3).value != user_name[0][1]
+        or worksheet_sign_up.cell(int(next_row_id) - 1, 4).value != user_data["chosen_time"].split(", ")[0] + ", " +
+            user_data["chosen_time"].split(", ")[1]
+        or worksheet_sign_up.cell(int(next_row_id) - 1, 5).value != user_data["chosen_time"].split(", ")[2]
+        or worksheet_sign_up.cell(int(next_row_id) - 1, 6).value != "Записан(а)"):
+
+        worksheet_sign_up.update_acell(f"A{next_row_id}", user_data["chosen_workshop_practice"])
+        worksheet_sign_up.update_acell(f"B{next_row_id}", user_name[0][0])
+        worksheet_sign_up.update_acell(f"C{next_row_id}", user_name[0][1])
+        worksheet_sign_up.update_acell(
+            f"D{next_row_id}", user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1])
+        worksheet_sign_up.update_acell(f"E{next_row_id}", user_data["chosen_time"].split(", ")[2])
+        worksheet_sign_up.update_acell(f"F{next_row_id}", "Записан(а)")
 
     await callback.message.edit_text(
         text=(
