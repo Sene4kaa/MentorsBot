@@ -24,38 +24,13 @@ router = Router()
 @router.callback_query(F.data == "ClearPractices")
 async def clear_practices(callback: CallbackQuery):
 
-    sql_admin_1 = """UPDATE workshops_schedule SET users_number = 13 
-                   WHERE title = 'Дизайн учебных презентаций' AND date = '12, Апрель'"""
-    sql_admin_2 = """UPDATE workshops_schedule SET users_number = 8 
-                       WHERE title = 'Оценивание' AND date = '9, Апрель'"""
-    sql_admin_3 = """UPDATE workshops_schedule SET users_number = 5 
-                       WHERE title = 'Адаптация уч.материалов' AND date = '1, Апрель'"""
-    sql_admin_4 = """UPDATE workshops_schedule SET users_number = 7 
-                           WHERE title = 'Разработка занятия' AND date = '15, Апрель'"""
-    sql_admin_5 = """UPDATE workshops_schedule SET users_number = 10 
-                           WHERE title = 'Практики пед.общения и мотивация' AND date = '5, Апрель'"""
-
-    sql_admin_6 = """UPDATE schedule SET users_number = 20 
-                               WHERE lesson = 'Управление эмоциями в уч.среде' AND date = '2, Апрель'"""
-    sql_admin_7 = """UPDATE schedule SET users_number = 15 
-                               WHERE lesson = 'Управление эмоциями в уч.среде' AND date = '4, Апрель'"""
-    sql_admin_8 = """UPDATE schedule SET users_number = 7 
-                               WHERE lesson = 'Практикум пед.наблюдения' AND date = '4, Апрель'"""
-    sql_admin_9 = """UPDATE schedule SET users_number = 9 
-                               WHERE lesson = 'Практикум пед.наблюдения' AND date = '10, Апрель'"""
+    sql_admin_1 = """UPDATE lessons_title SET title='Работа в Figma' WHERE title like '%Figma%'"""
+    sql_admin_2 = """UPDATE lessons_title SET title='Эмпатия vs Ассертивность' WHERE title like '%vs Ассертивность%'"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql_admin_1)
             cursor.execute(sql_admin_2)
-            cursor.execute(sql_admin_3)
-            cursor.execute(sql_admin_4)
-            cursor.execute(sql_admin_5)
-            cursor.execute(sql_admin_6)
-            cursor.execute(sql_admin_7)
-            cursor.execute(sql_admin_8)
-            cursor.execute(sql_admin_9)
-
             conn.commit()
 
     await callback.message.edit_text(
