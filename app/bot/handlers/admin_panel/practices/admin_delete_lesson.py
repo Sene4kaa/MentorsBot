@@ -29,7 +29,7 @@ async def clear_practices(callback: CallbackQuery):
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql_admin_1)
-            cursor.execute(sql_admin_2)
+
             conn.commit()
 
     await callback.message.edit_text(
