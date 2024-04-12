@@ -24,8 +24,7 @@ router = Router()
 @router.callback_query(F.data == "ClearPractices")
 async def clear_practices(callback: CallbackQuery):
 
-    sql_admin_1 = """UPDATE lessons_title SET title='Работа в Figma' WHERE title like '%Figma%'"""
-    sql_admin_2 = """UPDATE lessons_title SET title='Эмпатия vs Ассертивность' WHERE title like '%vs Ассертивность%'"""
+    sql_admin_1 = """DELETE FROM lessons_title WHERE title='Разработка и дизайн уч. презентаций'"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
