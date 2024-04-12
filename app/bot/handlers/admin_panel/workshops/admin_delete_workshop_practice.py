@@ -82,11 +82,22 @@ async def end_deleting_workshop(callback: CallbackQuery, state: FSMContext):
 
     print(user_data["chosen_time"].split(", "))
     sql = """DELETE FROM workshops_schedule WHERE title=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
+    sql_user = """DELETE FROM workshops WHERE title=%s AND format=%s AND date=%s AND hours=%s AND minutes=%s"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(
                 sql,
+                (
+                    user_data["chosen_name"],
+                    user_data["chosen_format"],
+                    user_data["chosen_time"].split(", ")[0] + ", " + user_data["chosen_time"].split(", ")[1],
+                    user_data["chosen_time"].split(", ")[2][:2],
+                    user_data["chosen_time"].split(", ")[2][3:],
+                ),
+            )
+            cursor.execute(
+                sql_user,
                 (
                     user_data["chosen_name"],
                     user_data["chosen_format"],
