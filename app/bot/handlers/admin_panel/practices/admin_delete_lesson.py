@@ -26,12 +26,16 @@ async def clear_practices(callback: CallbackQuery):
 
     sql_admin_1 = """SELECT * FROM workshops"""
     sql_admin_2 = """SELECT * FROM users"""
+    sql_admin_3 = """SELECT * FROM workshops_schedule"""
+    sql_admin_4 = """SELECT * FROM workshops_title"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
 
             msg = cursor.execute(sql_admin_1).fetchall()
             user = cursor.execute(sql_admin_2).fetchall()
+            schedule = cursor.execute(sql_admin_3).fetchall()
+            titles = cursor.execute(sql_admin_4).fetchall()
             conn.commit()
 
     answer = ''
@@ -43,6 +47,24 @@ async def clear_practices(callback: CallbackQuery):
 
     answer = ''
     for x in user:
+        for y in x:
+            answer += str(y) + ', '
+        answer += '\n'
+    await callback.message.answer(
+        text=answer
+    )
+
+    answer = ''
+    for x in schedule:
+        for y in x:
+            answer += str(y) + ', '
+        answer += '\n'
+    await callback.message.answer(
+        text=answer
+    )
+
+    answer = ''
+    for x in titles:
         for y in x:
             answer += str(y) + ', '
         answer += '\n'
