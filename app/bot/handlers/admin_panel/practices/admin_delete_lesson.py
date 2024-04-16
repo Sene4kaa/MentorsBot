@@ -24,11 +24,19 @@ router = Router()
 @router.callback_query(F.data == "ClearPractices")
 async def clear_practices(callback: CallbackQuery):
 
-    sql_admin_1 = """DELETE FROM lessons_title WHERE title='Разработка и дизайн уч. презентаций'"""
+    sql_admin_1 = """DELETE FROM workshops WHERE title='Практики пед.общения и мотивация'"""
+    sql_admin_2 = """DELETE FROM workshops WHERE title='Оценивание'"""
+    sql_admin_3 = """DELETE FROM workshops WHERE title='Адаптация уч.материалов'"""
+    sql_admin_4 = """DELETE FROM workshops WHERE title='Разработка занятия'"""
+    sql_admin_5 = """DELETE FROM workshops WHERE title='Дизайн учебных презентаций'"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql_admin_1)
+            cursor.execute(sql_admin_2)
+            cursor.execute(sql_admin_3)
+            cursor.execute(sql_admin_4)
+            cursor.execute(sql_admin_5)
 
             conn.commit()
 
