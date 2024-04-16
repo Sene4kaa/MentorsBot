@@ -24,24 +24,31 @@ router = Router()
 @router.callback_query(F.data == "ClearPractices")
 async def clear_practices(callback: CallbackQuery):
 
-    sql_admin_1 = """DELETE FROM workshops WHERE title='Практики пед.общения и мотивация'"""
-    sql_admin_2 = """DELETE FROM workshops WHERE title='Оценивание'"""
-    sql_admin_3 = """DELETE FROM workshops WHERE title='Адаптация уч.материалов'"""
-    sql_admin_4 = """DELETE FROM workshops WHERE title='Разработка занятия'"""
-    sql_admin_5 = """DELETE FROM workshops WHERE title='Дизайн учебных презентаций'"""
+    sql_admin_1 = """SELECT * FROM workshops"""
+    sql_admin_2 = """SELECT * FROM users"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-            cursor.execute(sql_admin_1)
-            cursor.execute(sql_admin_2)
-            cursor.execute(sql_admin_3)
-            cursor.execute(sql_admin_4)
-            cursor.execute(sql_admin_5)
 
+            msg = cursor.execute(sql_admin_1).fetchall()
+            user = cursor.execute(sql_admin_2).fetchall()
             conn.commit()
 
-    await callback.message.edit_text(
-        text="Данные обновлены! :):):):):):)):):)",
+    answer = ''
+    for x in msg:
+        for y in x:
+            answer += str(y) + ', '
+        answer += '\n'
+    await callback.message.edit_text(text=answer)
+
+    answer = ''
+    for x in user:
+        for y in x:
+            answer += str(y) + ', '
+        answer += '\n'
+
+    await callback.message.answer(
+        text=answer,
         reply_markup=get_back_to_admin_menu_kb()
     )
 
