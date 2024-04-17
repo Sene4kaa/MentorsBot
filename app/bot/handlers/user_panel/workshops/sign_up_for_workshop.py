@@ -104,6 +104,7 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
             + "Занятие 4. 8 мая, 10:00-11:30, онлайн\n\n"
             + "<u>Индивидуальные консультации по запросу: с 15 мая по 15 июня</u>",
 
+            disable_web_page_preview=True,
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
             ),
