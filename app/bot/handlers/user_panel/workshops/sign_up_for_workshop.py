@@ -189,8 +189,9 @@ async def workshop_practice_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "Занятие 2. 16 апреля 15:20-16:50, онлайн\n"
-                 + "Очный тренинг.  C 22 апреля по 27 апреля, дата по согласованию с участниками",
+                 + "1. Очный тренинг, 24.04, 10:00-11:30 - Ломоносова 9, ауд. 1310\n"
+                 + "2. Очный тренинг, 26.04, 15:20-16:50 - Ломоносова 9, ауд. 1310\n\n"
+                 + "Выбери дату для участия в очном тренинге.",
 
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
