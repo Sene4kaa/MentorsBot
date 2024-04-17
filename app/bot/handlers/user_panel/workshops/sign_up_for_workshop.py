@@ -8,6 +8,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.filters import StateFilter
 from django.conf import settings
+from aiogram.utils.markdown import hlink
 
 from bot.services.messages import (
     get_workshops_lower_35_list,
@@ -88,12 +89,19 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
     user_data = await state.get_data()
 
     if user_data['chosen_workshop_practice'] == "Оценивание":
+        link = hlink(
+            "табличке",
+             "https://docs.google.com/spreadsheets/d/1hkPSwhyr5K64YQ4e8KLZd2NoKr5F6lC4Gx8SB62wU_c/edit#gid=0"
+        )
         await callback.message.edit_text(
-            text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
+            text=f"Ты выбрал(а) мастерскую: <b>{user_data['chosen_workshop_practice']}</b>\n\n"
+            + f"❗️ <b>Для занятий 2 и 4 кроме записи через бота необходима запись в {link} </b> ❗️\n\n"
             + "<u>Расписание для данной мастерской</u>:\n\n"
-            + "Занятие 2. 18 апреля 16:00 - 19:00, онлайн\n"
-            + "Занятие 3. 23 апреля 17:00 - 18:30, онлайн\n"
-            + "Занятие 4. 7 мая 16:00 - 19:00, онлайн\n\n"
+            + "Занятие 2. 18 апреля, 16:00-19:00, онлайн\n"
+            + "Занятие 2. 19 апреля, 10:00-11:30, онлайн\n"
+            + "Занятие 3. 23 апреля, 17:00-18:30, онлайн\n"
+            + "Занятие 4. 7 мая, 16:00-19:00, онлайн\n"
+            + "Занятие 4. 8 мая, 10:00-11:30, онлайн\n\n"
             + "<u>Индивидуальные консультации по запросу: с 15 мая по 15 июня</u>",
 
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
@@ -104,8 +112,9 @@ async def time_chosen(callback: CallbackQuery, state: FSMContext):
         await callback.message.edit_text(
             text=f"Ты выбрал(а) мастерскую:\n<b>{user_data['chosen_workshop_practice']}</b>\n\n"
                  + "<u>Расписание для данной мастерской</u>:\n\n"
-                 + "Занятие 2. 16 апреля 15:20-16:50, онлайн\n"
-                 + "Очный тренинг. C 22 апреля по 27 апреля, дата по согласованию с участниками",
+                 + "1. Очный тренинг, 24.04, 10:00-11:30 - Ломоносова 9, ауд. 1310\n"
+                 + "2. Очный тренинг, 26.04, 15:20-16:50 - Ломоносова 9, ауд. 1310\n\n"
+                 + "Выбери дату для участия в очном тренинге.",
 
             reply_markup=get_user_list_cancel_sign_up_workshop_practice_kb(
                 set(get_workshops_dates_lower_35_list(user_data["chosen_workshop_practice"]))
