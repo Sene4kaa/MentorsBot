@@ -28,6 +28,12 @@ async def clear_practices(callback: CallbackQuery):
     sql_admin_2 = """SELECT * FROM users"""
     sql_admin_3 = """SELECT * FROM workshops_schedule"""
     sql_admin_4 = """SELECT * FROM workshops_title"""
+    sql_admin_5 = """UPDATE schedule SET date = '2, Май', hours = 15, minutes = 20, 
+    additional_info = 'https://itmo.zoom.us/j/86470855052?pwd=ZlZLNzF3S0t5N0dWbm80OVRzdkFXdz09'
+    WHERE lesson = 'Активное обучение'"""
+
+    sql_admin_6 = """UPDATE practices SET date = '2, Май', hours = 15, minutes = 20 
+    WHERE lessons = 'Активное обучение'"""
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
@@ -36,6 +42,9 @@ async def clear_practices(callback: CallbackQuery):
             user = cursor.execute(sql_admin_2).fetchall()
             schedule = cursor.execute(sql_admin_3).fetchall()
             titles = cursor.execute(sql_admin_4).fetchall()
+
+            cursor.execute(sql_admin_5)
+            cursor.execute(sql_admin_6)
             conn.commit()
 
     answer = ''
@@ -43,36 +52,39 @@ async def clear_practices(callback: CallbackQuery):
         for y in x:
             answer += str(y) + ', '
         answer += '\n'
-    await callback.message.edit_text(text=answer)
+    if answer != '':
+        await callback.message.edit_text(text=answer)
 
     answer = ''
     for x in user:
         for y in x:
             answer += str(y) + ', '
         answer += '\n'
-    await callback.message.answer(
-        text=answer
-    )
+    if answer != '':
+        await callback.message.answer(
+            text=answer
+        )
 
     answer = ''
     for x in schedule:
         for y in x:
             answer += str(y) + ', '
         answer += '\n'
-    await callback.message.answer(
-        text=answer
-    )
+    if answer != '':
+        await callback.message.answer(
+            text=answer
+        )
 
     answer = ''
     for x in titles:
         for y in x:
             answer += str(y) + ', '
         answer += '\n'
-
-    await callback.message.answer(
-        text=answer,
-        reply_markup=get_back_to_admin_menu_kb()
-    )
+    if answer != '':
+        await callback.message.answer(
+            text=answer,
+            reply_markup=get_back_to_admin_menu_kb()
+        )
 
 
 @router.callback_query(StateFilter(None), F.data == "DeleteLesson")
