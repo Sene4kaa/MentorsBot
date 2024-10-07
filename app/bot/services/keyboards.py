@@ -288,7 +288,7 @@ def get_user_sign_or_quit_practice_kb():
     buttons = [
         [types.InlineKeyboardButton(
             text="✨ Программа практических занятий",
-            url='https://drive.google.com/file/d/1qRWEylBm77Jeh1w1Q7mXYHKxP14MN30q/view?usp=sharing'
+            url='https://drive.google.com/file/d/1ypvLGaNep7as2WKoHDAuxlS9L_cS9GZu/view?usp=sharing'
         )],
         [types.InlineKeyboardButton(text="😊 Записаться", callback_data="SignUpForPractice"),
         types.InlineKeyboardButton(text="🤐 Отписаться", callback_data="QuitFromPractice")],
