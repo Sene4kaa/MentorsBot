@@ -81,7 +81,7 @@ def get_roadmap_kb():
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
         text="🛣 Дорожная карта с описанием занятий", 
-        url="https://miro.com/app/board/o9J_luc0BEE=/" )
+        url="https://miro.com/app/board/uXjVLaSQl0A=/?share_link_id=579087406714" )
     )
     builder.row(types.InlineKeyboardButton(
         text="🚀 Меню", callback_data="menu")

@@ -29,7 +29,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
         with conn.cursor() as cursor:
             await state.clear()
 
-            if str(message.from_user.id) not in AdminList and message.from_user.id != 582456997:
+            if str(message.from_user.id) not in AdminList and message.from_user.id != 582456997 and message.from_user.id != 443770912:
                 sql = """SELECT user_id FROM users"""
                 list = cursor.execute(sql).fetchall()
                 user_id_list = []
