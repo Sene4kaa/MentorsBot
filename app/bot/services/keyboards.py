@@ -290,6 +290,10 @@ def get_user_sign_or_quit_practice_kb():
             text="✨ Программа практических занятий",
             url='https://drive.google.com/file/d/1ypvLGaNep7as2WKoHDAuxlS9L_cS9GZu/view?usp=sharing'
         )],
+        [types.InlineKeyboardButton(
+            text="📅 Расписание занятий курса",
+            url='https://docs.google.com/spreadsheets/d/1klUYDlQn5DhgIqOqJB0ueFFEldJVkPFy3ABROVMnJOg/edit'
+        )],
         [types.InlineKeyboardButton(text="😊 Записаться", callback_data="SignUpForPractice"),
         types.InlineKeyboardButton(text="🤐 Отписаться", callback_data="QuitFromPractice")],
         [types.InlineKeyboardButton(text="📋 Мои занятия", callback_data="CheckForMyPractices")],
