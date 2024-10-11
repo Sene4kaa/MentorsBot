@@ -45,7 +45,7 @@ router = Router()
 titles_list = get_all_lessons_list()
 
 available_practice_formats = ["Zoom", "Очно, Кронверкский", "Очно, Ломоносова"]
-available_practice_months = ["Март", "Апрель", "Май", "Июнь"]
+available_practice_months = ["Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
 available_practice_day = [str(x) for x in range(1, 32)]
 available_practice_hour = ["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"]
 available_practice_minute = ["00", "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55"]
