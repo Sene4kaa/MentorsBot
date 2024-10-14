@@ -26,12 +26,12 @@ async def clear_practices(callback: CallbackQuery):
 
     sql_admin_1 = """DELETE FROM lessons_title"""
 
-
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(sql_admin_1)
             conn.commit()
     await callback.message.edit_text(text="Всё готово")
+
 
 @router.callback_query(StateFilter(None), F.data == "DeleteLesson")
 async def start_deleting_lesson(callback: CallbackQuery, state: FSMContext):
