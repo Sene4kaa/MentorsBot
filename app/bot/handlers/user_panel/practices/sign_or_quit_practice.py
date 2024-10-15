@@ -27,7 +27,7 @@ async def sign_or_quit(callback: CallbackQuery, state: FSMContext):
         + "<b>Воркшоп. Правила педагогической коммуникации (2 ак.ч)</b>\n" \
         + "Преподаватель: Никуленко А. А.\n" \
         + "1. 22 октября 17:00-18:30 – Zoom \n" \
-        + "2. 24 октября 10:00-11:30 – Zoom\n",
+        + "2. 24 октября 10:00-11:30 – Zoom\n\n",
             reply_markup=get_user_sign_or_quit_practice_kb(),
     )
 
