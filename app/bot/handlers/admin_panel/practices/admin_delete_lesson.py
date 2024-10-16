@@ -37,7 +37,6 @@ async def clear_practices(callback: CallbackQuery):
 
     with psycopg.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
-
             msg = cursor.execute(sql_admin_1).fetchall()
             user = cursor.execute(sql_admin_2).fetchall()
             schedule = cursor.execute(sql_admin_3).fetchall()
